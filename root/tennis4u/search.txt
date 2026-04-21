@@ -1,0 +1,1516 @@
+{
+  "log": {
+    "version": "1.2",
+    "creator": {
+      "name": "WebInspector",
+      "version": "537.36"
+    },
+    "pages": [
+      {
+        "startedDateTime": "2026-04-19T12:43:03.703Z",
+        "id": "page_1",
+        "title": "https://app.twojtenis.pl/",
+        "pageTimings": {
+          "onContentLoad": 262.55600014701486,
+          "onLoad": 421.5770000591874
+        }
+      }
+    ],
+    "entries": [
+      {
+        "_connectionId": "4285656",
+        "_initiator": {
+          "type": "script",
+          "stack": {
+            "callFrames": [
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 952074
+              },
+              {
+                "functionName": "xhr",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 950052
+              },
+              {
+                "functionName": "ow",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 960098
+              },
+              {
+                "functionName": "_request",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 963151
+              },
+              {
+                "functionName": "request",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 961572
+              },
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 928105
+              },
+              {
+                "functionName": "getClubsFreeSlotsSearchCriteria",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 981227
+              },
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 1032544
+              }
+            ],
+            "parent": {
+              "description": "await",
+              "callFrames": [
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 872710
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 873153
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 859937
+                },
+                {
+                  "functionName": "dispatch",
+                  "scriptId": "195",
+                  "url": "chrome-extension://lmhkpmbekcpmknklioeibfkpmmfibljd/page.bundle.js",
+                  "lineNumber": 5,
+                  "columnNumber": 7423
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 2383166
+                },
+                {
+                  "functionName": "rl",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 482092
+                },
+                {
+                  "functionName": "Du",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 502319
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 501054
+                },
+                {
+                  "functionName": "wu",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 501120
+                },
+                {
+                  "functionName": "lu",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 494839
+                },
+                {
+                  "functionName": "Vo",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 435284
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 492234
+                }
+              ]
+            }
+          }
+        },
+        "_priority": "High",
+        "_resourceType": "xhr",
+        "cache": {},
+        "connection": "443",
+        "pageref": "page_1",
+        "request": {
+          "method": "POST",
+          "url": "https://app-twojtenis-api-p-weu.azurewebsites.net/api/v1/Clubs/search",
+          "httpVersion": "HTTP/1.1",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json, text/plain, */*"
+            },
+            {
+              "name": "Accept-Encoding",
+              "value": "gzip, deflate, br, zstd"
+            },
+            {
+              "name": "Accept-Language",
+              "value": "en-US,en;q=0.9,ru;q=0.8"
+            },
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "139"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Host",
+              "value": "app-twojtenis-api-p-weu.azurewebsites.net"
+            },
+            {
+              "name": "Origin",
+              "value": "https://app.twojtenis.pl"
+            },
+            {
+              "name": "Sec-Fetch-Dest",
+              "value": "empty"
+            },
+            {
+              "name": "Sec-Fetch-Mode",
+              "value": "cors"
+            },
+            {
+              "name": "Sec-Fetch-Site",
+              "value": "cross-site"
+            },
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+            },
+            {
+              "name": "sec-ch-ua",
+              "value": "\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\""
+            },
+            {
+              "name": "sec-ch-ua-mobile",
+              "value": "?0"
+            },
+            {
+              "name": "sec-ch-ua-platform",
+              "value": "\"macOS\""
+            }
+          ],
+          "queryString": [],
+          "cookies": [],
+          "headersSize": 656,
+          "bodySize": 139,
+          "postData": {
+            "mimeType": "application/json",
+            "text": "{\"regionId\":\"31e247b1-1682-4e58-ba05-1bba6ca9ed23\",\"locationType\":0,\"date\":\"2026-04-26\",\"forMinutes\":120,\"from\":\"09:00:00\",\"to\":\"23:00:00\"}"
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "httpVersion": "HTTP/1.1",
+          "headers": [
+            {
+              "name": "Access-Control-Allow-Credentials",
+              "value": "true"
+            },
+            {
+              "name": "Access-Control-Allow-Origin",
+              "value": "https://app.twojtenis.pl"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Sun, 19 Apr 2026 12:49:37 GMT"
+            },
+            {
+              "name": "Request-Context",
+              "value": "appId=cid-v1:74abc607-f395-42b2-be05-a917cdc55ff1"
+            },
+            {
+              "name": "Server",
+              "value": "Kestrel"
+            },
+            {
+              "name": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "name": "api-supported-versions",
+              "value": "1.0"
+            },
+            {
+              "name": "x-ms-middleware-request-id",
+              "value": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "cookies": [],
+          "content": {
+            "size": 4410,
+            "mimeType": "application/json",
+            "compression": -19
+          },
+          "redirectURL": "",
+          "headersSize": 406,
+          "bodySize": 4429,
+          "_transferSize": 4835,
+          "_error": null,
+          "_fetchedViaServiceWorker": false
+        },
+        "serverIPAddress": "20.105.224.46",
+        "startedDateTime": "2026-04-19T12:49:37.111Z",
+        "time": 78.31000001169741,
+        "timings": {
+          "blocked": 35.71400005583465,
+          "dns": -1,
+          "ssl": -1,
+          "connect": -1,
+          "send": 0.15300000000000002,
+          "wait": 42.035000108778476,
+          "receive": 0.40799984708428383,
+          "_blocked_queueing": 35.47700005583465,
+          "_workerStart": -1,
+          "_workerReady": -1,
+          "_workerFetchStart": -1,
+          "_workerRespondWithSettled": -1
+        }
+      },
+      {
+        "_connectionId": "4285658",
+        "_initiator": {
+          "type": "script",
+          "stack": {
+            "callFrames": [
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 952074
+              },
+              {
+                "functionName": "xhr",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 950052
+              },
+              {
+                "functionName": "ow",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 960098
+              },
+              {
+                "functionName": "_request",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 963151
+              },
+              {
+                "functionName": "request",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 961572
+              },
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 928105
+              },
+              {
+                "functionName": "getClubsFreeSlotsSearchCriteria",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 981227
+              },
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 1032544
+              }
+            ],
+            "parent": {
+              "description": "await",
+              "callFrames": [
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 872710
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 873153
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 859937
+                },
+                {
+                  "functionName": "dispatch",
+                  "scriptId": "195",
+                  "url": "chrome-extension://lmhkpmbekcpmknklioeibfkpmmfibljd/page.bundle.js",
+                  "lineNumber": 5,
+                  "columnNumber": 7423
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 2383166
+                },
+                {
+                  "functionName": "rl",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 482092
+                },
+                {
+                  "functionName": "Du",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 502319
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 498909
+                },
+                {
+                  "functionName": "D",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 538257
+                },
+                {
+                  "functionName": "P",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 538791
+                }
+              ],
+              "parentId": {
+                "id": "537",
+                "debuggerId": "-3913225898929089281.5176180172922292891"
+              }
+            }
+          }
+        },
+        "_priority": "High",
+        "_resourceType": "xhr",
+        "cache": {},
+        "connection": "443",
+        "pageref": "page_1",
+        "request": {
+          "method": "POST",
+          "url": "https://app-twojtenis-api-p-weu.azurewebsites.net/api/v1/Clubs/search",
+          "httpVersion": "HTTP/1.1",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json, text/plain, */*"
+            },
+            {
+              "name": "Accept-Encoding",
+              "value": "gzip, deflate, br, zstd"
+            },
+            {
+              "name": "Accept-Language",
+              "value": "en-US,en;q=0.9,ru;q=0.8"
+            },
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "139"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Host",
+              "value": "app-twojtenis-api-p-weu.azurewebsites.net"
+            },
+            {
+              "name": "Origin",
+              "value": "https://app.twojtenis.pl"
+            },
+            {
+              "name": "Sec-Fetch-Dest",
+              "value": "empty"
+            },
+            {
+              "name": "Sec-Fetch-Mode",
+              "value": "cors"
+            },
+            {
+              "name": "Sec-Fetch-Site",
+              "value": "cross-site"
+            },
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+            },
+            {
+              "name": "sec-ch-ua",
+              "value": "\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\""
+            },
+            {
+              "name": "sec-ch-ua-mobile",
+              "value": "?0"
+            },
+            {
+              "name": "sec-ch-ua-platform",
+              "value": "\"macOS\""
+            }
+          ],
+          "queryString": [],
+          "cookies": [],
+          "headersSize": 656,
+          "bodySize": 139,
+          "postData": {
+            "mimeType": "application/json",
+            "text": "{\"regionId\":\"31e247b1-1682-4e58-ba05-1bba6ca9ed23\",\"locationType\":0,\"date\":\"2026-04-26\",\"forMinutes\":120,\"from\":\"09:00:00\",\"to\":\"23:00:00\"}"
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "httpVersion": "HTTP/1.1",
+          "headers": [
+            {
+              "name": "Access-Control-Allow-Credentials",
+              "value": "true"
+            },
+            {
+              "name": "Access-Control-Allow-Origin",
+              "value": "https://app.twojtenis.pl"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Sun, 19 Apr 2026 12:49:37 GMT"
+            },
+            {
+              "name": "Request-Context",
+              "value": "appId=cid-v1:74abc607-f395-42b2-be05-a917cdc55ff1"
+            },
+            {
+              "name": "Server",
+              "value": "Kestrel"
+            },
+            {
+              "name": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "name": "api-supported-versions",
+              "value": "1.0"
+            },
+            {
+              "name": "x-ms-middleware-request-id",
+              "value": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "cookies": [],
+          "content": {
+            "size": 4410,
+            "mimeType": "application/json",
+            "compression": -19
+          },
+          "redirectURL": "",
+          "headersSize": 406,
+          "bodySize": 4429,
+          "_transferSize": 4835,
+          "_error": null,
+          "_fetchedViaServiceWorker": false
+        },
+        "serverIPAddress": "20.105.224.46",
+        "startedDateTime": "2026-04-19T12:49:37.134Z",
+        "time": 75.27399994432926,
+        "timings": {
+          "blocked": 34.721999867901204,
+          "dns": -1,
+          "ssl": -1,
+          "connect": -1,
+          "send": 0.22099999999999997,
+          "wait": 40.01399999094009,
+          "receive": 0.31700008548796177,
+          "_blocked_queueing": 34.534999867901206,
+          "_workerStart": -1,
+          "_workerReady": -1,
+          "_workerFetchStart": -1,
+          "_workerRespondWithSettled": -1
+        }
+      },
+      {
+        "_connectionId": "4285689",
+        "_initiator": {
+          "type": "script",
+          "stack": {
+            "callFrames": [
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 952074
+              },
+              {
+                "functionName": "xhr",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 950052
+              },
+              {
+                "functionName": "ow",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 960098
+              },
+              {
+                "functionName": "_request",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 963151
+              },
+              {
+                "functionName": "request",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 961572
+              },
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 928105
+              },
+              {
+                "functionName": "searchFreeSlots",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 1004652
+              },
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 1032694
+              }
+            ],
+            "parent": {
+              "description": "await",
+              "callFrames": [
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 872710
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 873153
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 859937
+                },
+                {
+                  "functionName": "dispatch",
+                  "scriptId": "195",
+                  "url": "chrome-extension://lmhkpmbekcpmknklioeibfkpmmfibljd/page.bundle.js",
+                  "lineNumber": 5,
+                  "columnNumber": 7423
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 2383166
+                },
+                {
+                  "functionName": "rl",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 482092
+                },
+                {
+                  "functionName": "Du",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 502319
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 501054
+                },
+                {
+                  "functionName": "wu",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 501120
+                },
+                {
+                  "functionName": "lu",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 494839
+                },
+                {
+                  "functionName": "Vo",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 435284
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 492234
+                }
+              ]
+            }
+          }
+        },
+        "_priority": "High",
+        "_resourceType": "xhr",
+        "cache": {},
+        "connection": "443",
+        "pageref": "page_1",
+        "request": {
+          "method": "POST",
+          "url": "https://app-twojtenis-tech-krakow-api-p-weu.azurewebsites.net/api/v1/freeslots/search",
+          "httpVersion": "HTTP/1.1",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json, text/plain, */*"
+            },
+            {
+              "name": "Accept-Encoding",
+              "value": "gzip, deflate, br, zstd"
+            },
+            {
+              "name": "Accept-Language",
+              "value": "en-US,en;q=0.9,ru;q=0.8"
+            },
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "4408"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Host",
+              "value": "app-twojtenis-tech-krakow-api-p-weu.azurewebsites.net"
+            },
+            {
+              "name": "Origin",
+              "value": "https://app.twojtenis.pl"
+            },
+            {
+              "name": "Sec-Fetch-Dest",
+              "value": "empty"
+            },
+            {
+              "name": "Sec-Fetch-Mode",
+              "value": "cors"
+            },
+            {
+              "name": "Sec-Fetch-Site",
+              "value": "cross-site"
+            },
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+            },
+            {
+              "name": "sec-ch-ua",
+              "value": "\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\""
+            },
+            {
+              "name": "sec-ch-ua-mobile",
+              "value": "?0"
+            },
+            {
+              "name": "sec-ch-ua-platform",
+              "value": "\"macOS\""
+            }
+          ],
+          "queryString": [],
+          "cookies": [],
+          "headersSize": 673,
+          "bodySize": 4408,
+          "postData": {
+            "mimeType": "application/json",
+            "text": "{\"technicalGroupUrl\":\"https://app-twojtenis-tech-krakow-api-p-weu.azurewebsites.net\",\"date\":\"2026-04-26\",\"forMinutes\":120,\"clubs\":[{\"id\":\"b8431bee-80fe-435d-9f10-1f710a9ec003\",\"name\":\"Klub Testowy Kraków\",\"isFavorite\":false,\"locations\":[{\"id\":\"9abdf242-cf80-49e7-94a6-3cc45adcc3db\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"cd40e5b9-ee98-4236-807f-5be925314cc0\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"ca7fe045-8e97-48bd-9d1f-cd77e8236ac5\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"}]},{\"id\":\"b992cf9b-e798-4a97-8593-345b4a92dc7d\",\"name\":\"Forehand Krakowska Akademia Tenisa\",\"isFavorite\":false,\"locations\":[{\"id\":\"c5a0e2c0-bf3b-453b-beb0-3037b419528f\",\"from\":\"09:00:00\",\"to\":\"20:00:00\"},{\"id\":\"0e1dc3df-4dd0-42e4-8a45-3ee0bae69655\",\"from\":\"09:00:00\",\"to\":\"20:00:00\"},{\"id\":\"48c46114-3b72-4e5d-9929-4ed7d85515fa\",\"from\":\"09:00:00\",\"to\":\"20:00:00\"}]},{\"id\":\"143a79c9-56d6-4c09-b84d-3d992aa690b5\",\"name\":\"Sport Klub Kryspinów\",\"isFavorite\":false,\"locations\":[{\"id\":\"a997d959-f3eb-4427-bbf5-05e7355a9419\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"},{\"id\":\"a1c8a298-3d21-466f-853c-0a429e1df2d1\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"},{\"id\":\"b4fe1cf4-66ff-4250-8103-c657d8f91aaa\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"},{\"id\":\"416f8ee1-6000-4200-941a-45bd1b5e78a4\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"},{\"id\":\"f7ed5dc5-3558-4c91-9a97-6b7b3792dfa9\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"},{\"id\":\"0ae381ab-9b88-4c14-9bd5-f55c1618a1be\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"}]},{\"id\":\"ad2cb880-a5bc-41e8-a9d9-4cf79d77f794\",\"name\":\"Akademia Topsportu - Piaski Nowe\",\"isFavorite\":false,\"locations\":[{\"id\":\"ccef8246-776d-4e6b-b296-50dc05b3300d\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"},{\"id\":\"2686cd2f-7dba-4dfc-ab33-f3077fc77e24\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"}]},{\"id\":\"89738c5a-717b-452d-a928-5c6d1e1fbb2c\",\"name\":\"Krakowski Klub Tenisowy Olsza\",\"isFavorite\":false,\"locations\":[{\"id\":\"f9200e89-0658-4c52-8a2c-2aad711c5252\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"ab423894-b7cc-4a83-930f-3a2b7e875977\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"380b7026-a140-4ebc-beb8-3a4bd725d4cd\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"21b8d82a-786a-4045-850f-77e067888397\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"7af9348c-b2df-4499-b11a-7896284e05db\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"c8410a8b-a9f8-42c7-bf21-7e03d2b07621\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"f696091d-3e93-49d0-af54-86b06e7eeda4\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"3e1b40cf-e7c8-441b-945f-8c71c5efb8c7\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"27d9e47b-56f2-4436-811f-a51b205d2c50\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"c7523aa3-29f9-41bf-bda1-d147323abc44\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"}]},{\"id\":\"02844bcf-8cb1-4db7-827c-676a45be453f\",\"name\":\"Klub Tenisowy Błonia Kraków\",\"isFavorite\":false,\"locations\":[{\"id\":\"08b7fa2c-bf9f-491e-9e73-367c3eef565b\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"74cf1cd9-2b6c-420e-94e4-9c0d3fd51ad6\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"466ac974-bb5c-4a5f-85a5-a995e7bedef8\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"aae1d896-55ca-45d4-84b1-6e4602261816\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"aa413c81-dce4-4baa-9762-7c9ad8397d2a\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"67a96b16-1c10-4523-a8a7-e04e4650439c\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"}]},{\"id\":\"958662f0-0bd2-4fdc-8bef-bb2d69761adb\",\"name\":\"Błonia Sport\",\"isFavorite\":false,\"locations\":[{\"id\":\"141eaa68-b92b-4034-9694-1c5640ef1beb\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"54ceb415-862f-4518-8eb4-2c4a094b43ff\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"118fd869-4748-49fc-be79-33070c070d7d\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"f629f2d9-01fe-4a61-b736-493203ed5bfe\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"10813d74-a6d7-43f5-9b96-5116d2907021\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"9a0d7b06-2fe2-415d-b32a-d5c9bb6c0958\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"b8db92ed-690b-4630-a800-f0c063c5ecd0\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"}]},{\"id\":\"12b1b615-c7a4-4024-8cf7-dd42fdba44a1\",\"name\":\"WKS Wawel\",\"isFavorite\":false,\"locations\":[{\"id\":\"292c82f1-0c76-4305-a887-0caa21a5b08f\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"eb3fac03-0c91-4ff8-b540-16c4ac41cb11\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"5058001c-2df9-4876-8270-3b7badecbbe6\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"42b7a425-240d-443f-8c5a-e39ecee71c37\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"7fd879cb-dd28-4c14-ae9e-fbf324d118a4\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"}]}],\"locationType\":0}"
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "httpVersion": "HTTP/1.1",
+          "headers": [
+            {
+              "name": "Access-Control-Allow-Credentials",
+              "value": "true"
+            },
+            {
+              "name": "Access-Control-Allow-Origin",
+              "value": "https://app.twojtenis.pl"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Sun, 19 Apr 2026 12:49:37 GMT"
+            },
+            {
+              "name": "Request-Context",
+              "value": "appId=cid-v1:14e51b64-caa4-4834-919d-5f2ac02e6b28"
+            },
+            {
+              "name": "Server",
+              "value": "Kestrel"
+            },
+            {
+              "name": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "name": "api-supported-versions",
+              "value": "1.0"
+            },
+            {
+              "name": "x-ms-middleware-request-id",
+              "value": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "cookies": [],
+          "content": {
+            "size": 2590,
+            "mimeType": "application/json",
+            "compression": -12
+          },
+          "redirectURL": "",
+          "headersSize": 406,
+          "bodySize": 2602,
+          "_transferSize": 3008,
+          "_error": null,
+          "_fetchedViaServiceWorker": false
+        },
+        "serverIPAddress": "20.105.224.46",
+        "startedDateTime": "2026-04-19T12:49:37.190Z",
+        "time": 375.6460000295192,
+        "timings": {
+          "blocked": 39.980000075638294,
+          "dns": -1,
+          "ssl": -1,
+          "connect": -1,
+          "send": 0.21400000000000002,
+          "wait": 334.7930000582039,
+          "receive": 0.6589998956769705,
+          "_blocked_queueing": 39.791000075638294,
+          "_workerStart": -1,
+          "_workerReady": -1,
+          "_workerFetchStart": -1,
+          "_workerRespondWithSettled": -1
+        }
+      },
+      {
+        "_connectionId": "4285698",
+        "_initiator": {
+          "type": "script",
+          "stack": {
+            "callFrames": [
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 952074
+              },
+              {
+                "functionName": "xhr",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 950052
+              },
+              {
+                "functionName": "ow",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 960098
+              },
+              {
+                "functionName": "_request",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 963151
+              },
+              {
+                "functionName": "request",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 961572
+              },
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 928105
+              },
+              {
+                "functionName": "searchFreeSlots",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 1004652
+              },
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 1032694
+              }
+            ],
+            "parent": {
+              "description": "await",
+              "callFrames": [
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 872710
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 873153
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 859937
+                },
+                {
+                  "functionName": "dispatch",
+                  "scriptId": "195",
+                  "url": "chrome-extension://lmhkpmbekcpmknklioeibfkpmmfibljd/page.bundle.js",
+                  "lineNumber": 5,
+                  "columnNumber": 7423
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 2383166
+                },
+                {
+                  "functionName": "rl",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 482092
+                },
+                {
+                  "functionName": "Du",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 502319
+                },
+                {
+                  "functionName": "",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 498909
+                },
+                {
+                  "functionName": "D",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 538257
+                },
+                {
+                  "functionName": "P",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 538791
+                }
+              ],
+              "parentId": {
+                "id": "537",
+                "debuggerId": "-3913225898929089281.5176180172922292891"
+              }
+            }
+          }
+        },
+        "_priority": "High",
+        "_resourceType": "xhr",
+        "cache": {},
+        "connection": "443",
+        "pageref": "page_1",
+        "request": {
+          "method": "POST",
+          "url": "https://app-twojtenis-tech-krakow-api-p-weu.azurewebsites.net/api/v1/freeslots/search",
+          "httpVersion": "HTTP/1.1",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json, text/plain, */*"
+            },
+            {
+              "name": "Accept-Encoding",
+              "value": "gzip, deflate, br, zstd"
+            },
+            {
+              "name": "Accept-Language",
+              "value": "en-US,en;q=0.9,ru;q=0.8"
+            },
+            {
+              "name": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "name": "Content-Length",
+              "value": "4408"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Host",
+              "value": "app-twojtenis-tech-krakow-api-p-weu.azurewebsites.net"
+            },
+            {
+              "name": "Origin",
+              "value": "https://app.twojtenis.pl"
+            },
+            {
+              "name": "Sec-Fetch-Dest",
+              "value": "empty"
+            },
+            {
+              "name": "Sec-Fetch-Mode",
+              "value": "cors"
+            },
+            {
+              "name": "Sec-Fetch-Site",
+              "value": "cross-site"
+            },
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+            },
+            {
+              "name": "sec-ch-ua",
+              "value": "\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\""
+            },
+            {
+              "name": "sec-ch-ua-mobile",
+              "value": "?0"
+            },
+            {
+              "name": "sec-ch-ua-platform",
+              "value": "\"macOS\""
+            }
+          ],
+          "queryString": [],
+          "cookies": [],
+          "headersSize": 673,
+          "bodySize": 4408,
+          "postData": {
+            "mimeType": "application/json",
+            "text": "{\"technicalGroupUrl\":\"https://app-twojtenis-tech-krakow-api-p-weu.azurewebsites.net\",\"date\":\"2026-04-26\",\"forMinutes\":120,\"clubs\":[{\"id\":\"b8431bee-80fe-435d-9f10-1f710a9ec003\",\"name\":\"Klub Testowy Kraków\",\"isFavorite\":false,\"locations\":[{\"id\":\"9abdf242-cf80-49e7-94a6-3cc45adcc3db\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"cd40e5b9-ee98-4236-807f-5be925314cc0\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"ca7fe045-8e97-48bd-9d1f-cd77e8236ac5\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"}]},{\"id\":\"b992cf9b-e798-4a97-8593-345b4a92dc7d\",\"name\":\"Forehand Krakowska Akademia Tenisa\",\"isFavorite\":false,\"locations\":[{\"id\":\"c5a0e2c0-bf3b-453b-beb0-3037b419528f\",\"from\":\"09:00:00\",\"to\":\"20:00:00\"},{\"id\":\"0e1dc3df-4dd0-42e4-8a45-3ee0bae69655\",\"from\":\"09:00:00\",\"to\":\"20:00:00\"},{\"id\":\"48c46114-3b72-4e5d-9929-4ed7d85515fa\",\"from\":\"09:00:00\",\"to\":\"20:00:00\"}]},{\"id\":\"143a79c9-56d6-4c09-b84d-3d992aa690b5\",\"name\":\"Sport Klub Kryspinów\",\"isFavorite\":false,\"locations\":[{\"id\":\"a997d959-f3eb-4427-bbf5-05e7355a9419\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"},{\"id\":\"a1c8a298-3d21-466f-853c-0a429e1df2d1\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"},{\"id\":\"b4fe1cf4-66ff-4250-8103-c657d8f91aaa\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"},{\"id\":\"416f8ee1-6000-4200-941a-45bd1b5e78a4\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"},{\"id\":\"f7ed5dc5-3558-4c91-9a97-6b7b3792dfa9\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"},{\"id\":\"0ae381ab-9b88-4c14-9bd5-f55c1618a1be\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"}]},{\"id\":\"ad2cb880-a5bc-41e8-a9d9-4cf79d77f794\",\"name\":\"Akademia Topsportu - Piaski Nowe\",\"isFavorite\":false,\"locations\":[{\"id\":\"ccef8246-776d-4e6b-b296-50dc05b3300d\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"},{\"id\":\"2686cd2f-7dba-4dfc-ab33-f3077fc77e24\",\"from\":\"09:00:00\",\"to\":\"22:30:00\"}]},{\"id\":\"89738c5a-717b-452d-a928-5c6d1e1fbb2c\",\"name\":\"Krakowski Klub Tenisowy Olsza\",\"isFavorite\":false,\"locations\":[{\"id\":\"f9200e89-0658-4c52-8a2c-2aad711c5252\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"ab423894-b7cc-4a83-930f-3a2b7e875977\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"380b7026-a140-4ebc-beb8-3a4bd725d4cd\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"21b8d82a-786a-4045-850f-77e067888397\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"7af9348c-b2df-4499-b11a-7896284e05db\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"c8410a8b-a9f8-42c7-bf21-7e03d2b07621\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"f696091d-3e93-49d0-af54-86b06e7eeda4\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"3e1b40cf-e7c8-441b-945f-8c71c5efb8c7\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"27d9e47b-56f2-4436-811f-a51b205d2c50\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"c7523aa3-29f9-41bf-bda1-d147323abc44\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"}]},{\"id\":\"02844bcf-8cb1-4db7-827c-676a45be453f\",\"name\":\"Klub Tenisowy Błonia Kraków\",\"isFavorite\":false,\"locations\":[{\"id\":\"08b7fa2c-bf9f-491e-9e73-367c3eef565b\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"74cf1cd9-2b6c-420e-94e4-9c0d3fd51ad6\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"466ac974-bb5c-4a5f-85a5-a995e7bedef8\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"aae1d896-55ca-45d4-84b1-6e4602261816\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"aa413c81-dce4-4baa-9762-7c9ad8397d2a\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"67a96b16-1c10-4523-a8a7-e04e4650439c\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"}]},{\"id\":\"958662f0-0bd2-4fdc-8bef-bb2d69761adb\",\"name\":\"Błonia Sport\",\"isFavorite\":false,\"locations\":[{\"id\":\"141eaa68-b92b-4034-9694-1c5640ef1beb\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"54ceb415-862f-4518-8eb4-2c4a094b43ff\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"118fd869-4748-49fc-be79-33070c070d7d\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"f629f2d9-01fe-4a61-b736-493203ed5bfe\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"10813d74-a6d7-43f5-9b96-5116d2907021\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"9a0d7b06-2fe2-415d-b32a-d5c9bb6c0958\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"},{\"id\":\"b8db92ed-690b-4630-a800-f0c063c5ecd0\",\"from\":\"09:00:00\",\"to\":\"23:00:00\"}]},{\"id\":\"12b1b615-c7a4-4024-8cf7-dd42fdba44a1\",\"name\":\"WKS Wawel\",\"isFavorite\":false,\"locations\":[{\"id\":\"292c82f1-0c76-4305-a887-0caa21a5b08f\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"eb3fac03-0c91-4ff8-b540-16c4ac41cb11\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"5058001c-2df9-4876-8270-3b7badecbbe6\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"42b7a425-240d-443f-8c5a-e39ecee71c37\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"},{\"id\":\"7fd879cb-dd28-4c14-ae9e-fbf324d118a4\",\"from\":\"09:00:00\",\"to\":\"22:00:00\"}]}],\"locationType\":0}"
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "httpVersion": "HTTP/1.1",
+          "headers": [
+            {
+              "name": "Access-Control-Allow-Credentials",
+              "value": "true"
+            },
+            {
+              "name": "Access-Control-Allow-Origin",
+              "value": "https://app.twojtenis.pl"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "name": "Date",
+              "value": "Sun, 19 Apr 2026 12:49:37 GMT"
+            },
+            {
+              "name": "Request-Context",
+              "value": "appId=cid-v1:14e51b64-caa4-4834-919d-5f2ac02e6b28"
+            },
+            {
+              "name": "Server",
+              "value": "Kestrel"
+            },
+            {
+              "name": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "name": "api-supported-versions",
+              "value": "1.0"
+            },
+            {
+              "name": "x-ms-middleware-request-id",
+              "value": "00000000-0000-0000-0000-000000000000"
+            }
+          ],
+          "cookies": [],
+          "content": {
+            "size": 2590,
+            "mimeType": "application/json",
+            "compression": -12
+          },
+          "redirectURL": "",
+          "headersSize": 406,
+          "bodySize": 2602,
+          "_transferSize": 3008,
+          "_error": null,
+          "_fetchedViaServiceWorker": false
+        },
+        "serverIPAddress": "20.105.224.46",
+        "startedDateTime": "2026-04-19T12:49:37.210Z",
+        "time": 390.0820000562817,
+        "timings": {
+          "blocked": 34.19699987731874,
+          "dns": -1,
+          "ssl": -1,
+          "connect": -1,
+          "send": 0.11000000000000001,
+          "wait": 355.1049999666959,
+          "receive": 0.6700002122670412,
+          "_blocked_queueing": 34.04699987731874,
+          "_workerStart": -1,
+          "_workerReady": -1,
+          "_workerFetchStart": -1,
+          "_workerRespondWithSettled": -1
+        }
+      },
+      {
+        "_connectionId": "4285794",
+        "_initiator": {
+          "type": "script",
+          "stack": {
+            "callFrames": [
+              {
+                "functionName": "method",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 2267170
+              },
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 2352460
+              },
+              {
+                "functionName": "_send_request",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 2352466
+              },
+              {
+                "functionName": "retriableRequest",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 2316583
+              },
+              {
+                "functionName": "rs",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 2352671
+              },
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 2344034
+              },
+              {
+                "functionName": "n",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 2315874
+              },
+              {
+                "functionName": "",
+                "scriptId": "196",
+                "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                "lineNumber": 1,
+                "columnNumber": 2315896
+              }
+            ],
+            "parent": {
+              "description": "setTimeout",
+              "callFrames": [
+                {
+                  "functionName": "je",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 2315670
+                },
+                {
+                  "functionName": "enqueue",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 2315386
+                },
+                {
+                  "functionName": "capture",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 2356025
+                },
+                {
+                  "functionName": "O",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 2230540
+                },
+                {
+                  "functionName": "e",
+                  "scriptId": "196",
+                  "url": "https://app.twojtenis.pl/static/js/main.ba56bf74.js",
+                  "lineNumber": 1,
+                  "columnNumber": 2226612
+                }
+              ]
+            }
+          }
+        },
+        "_priority": "High",
+        "_resourceType": "fetch",
+        "cache": {},
+        "connection": "443",
+        "pageref": "page_1",
+        "request": {
+          "method": "POST",
+          "url": "https://eu.i.posthog.com/i/v0/e/?ip=0&_=1776602980062&ver=1.347.2&compression=gzip-js",
+          "httpVersion": "http/2.0",
+          "headers": [
+            {
+              "name": ":authority",
+              "value": "eu.i.posthog.com"
+            },
+            {
+              "name": ":method",
+              "value": "POST"
+            },
+            {
+              "name": ":path",
+              "value": "/i/v0/e/?ip=0&_=1776602980062&ver=1.347.2&compression=gzip-js"
+            },
+            {
+              "name": ":scheme",
+              "value": "https"
+            },
+            {
+              "name": "accept",
+              "value": "*/*"
+            },
+            {
+              "name": "accept-encoding",
+              "value": "gzip, deflate, br, zstd"
+            },
+            {
+              "name": "accept-language",
+              "value": "en-US,en;q=0.9,ru;q=0.8"
+            },
+            {
+              "name": "content-length",
+              "value": "1655"
+            },
+            {
+              "name": "content-type",
+              "value": "text/plain"
+            },
+            {
+              "name": "origin",
+              "value": "https://app.twojtenis.pl"
+            },
+            {
+              "name": "priority",
+              "value": "u=1, i"
+            },
+            {
+              "name": "sec-ch-ua",
+              "value": "\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\""
+            },
+            {
+              "name": "sec-ch-ua-mobile",
+              "value": "?0"
+            },
+            {
+              "name": "sec-ch-ua-platform",
+              "value": "\"macOS\""
+            },
+            {
+              "name": "sec-fetch-dest",
+              "value": "empty"
+            },
+            {
+              "name": "sec-fetch-mode",
+              "value": "cors"
+            },
+            {
+              "name": "sec-fetch-site",
+              "value": "cross-site"
+            },
+            {
+              "name": "user-agent",
+              "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+            }
+          ],
+          "queryString": [
+            {
+              "name": "ip",
+              "value": "0"
+            },
+            {
+              "name": "_",
+              "value": "1776602980062"
+            },
+            {
+              "name": "ver",
+              "value": "1.347.2"
+            },
+            {
+              "name": "compression",
+              "value": "gzip-js"
+            }
+          ],
+          "cookies": [],
+          "headersSize": -1,
+          "bodySize": 2208,
+          "postData": {
+            "mimeType": "text/plain",
+            "text": "H4sIAAAAAAAAA80YaW/bNvSvGEIHtEDp6LAsycU+NNuadm2wAcnWbW0hUCQlsZZFhaR8pOh/36Nk2bLjJBrWAWuDBHz3LT5++GLVNafWzLKdiGKfYOR4roeCdEJQiEmCnNCjro/dgIS29dxiS1ZqIH+Cay0IrnQtGYArKSomNWfKmn2xngj4Y11iMvrlavQHoAEQL5lUXJSAcOyx448DA0+kWCkmAfhDLsXCiHpC2ZITFutNxQD+I1NzLSqD0HzBbkVpoD/VRuHZeywVXvVxsUhTxcBC5Lg2wEktJVgc17IAtlzrSs3OznBVjfVKfNas5GpcFWdGRC6U8ewYZ1AV1nmJwbyZ1ZBKvIprsDvGWRuOS3HLiwKf+WN79BQc56UWKn8xelNqVoy6SIwcO3b8OHg2ellVBXvPkrdcn/leMPamo6dvX19fvns+KvicjS4YmYtnozYoZ85kOrbN/9EVTrHkW5ZeAPfRBdoeuMBlVoORYCIr0W9XfZYOF1eSpXzdkBi8IpKxMs4Zz3LwLQrdPXDFqc5Bie8Y4JKzVSWk3tFO/KAPPqQueAI6ViwxSuDQr4ixNwnGrkHwEmzTcVOT82TDFngjq+hG11mw7hINIoNgOrXdKAjGth/ti6ZXyomLppMgRUFCbQSEFPl+OEnINIgC2xQa5Urzkmx1DWQC+7jmuOC3WIPtcWuO5druFNkT5ETXjjubeDN7Mrbt4C/DQUSZ8gz6hMaKKeNxwyVqHS+gT5zQNv+AsNdSMRiHk6JhkRCnWHEKelJcKGbqUQpag+Va1FLFrHyAFOIdL7mG02A6XBRiBXQLpiUnYGJZFwWQsDVhVeN1Z+WDEinDNCYFJ/NHVGOi+ZLFKcON0LTAGSj9YKkaiDdIY5kxyFSGEifwbQf7KUWkVlosrE/AvuU7G0A+07I2Gvuq4gpvCoGpmVxfj3GS3dRMbUskTKZmGgbIIU6CJh6MyGiaMJRgSnwcsijC1CT8QAJb4qLGGnzH0CDbuvXDyHNNqyg6jylLaqBbw8AxxaFiU2Im+LkwWtWmJDAGSlGrpjvv5TBF1VSUqSVoaQaTz0zWbuitVqu7Q6+lg2jFVCwwN814TGfImrHfjeQmp01ls97cMVQFWwCdikneilLLbHxZ86tl9ga6AKWi1Ff8ll0yyutFHyOF0GOiFBL5evOZzLDWMo5h1GGUc0pZ+f1Hy+Tuo9ViSIGVAtiRiNG9ykZ74Z0MijVGGrLLKUi6YliS3HB2+FRA1ZiyBWxTqh3CzLdzsQawPbJH7gR+PlqlzhHJeWFkOe1RpMhErAW8UBUujcvntdZgHgdNR0dj7TtTvT24gnLWxqomOo4QKzzPt+HpBaEnxcTgmLkHO1DURGUrdIALSSOiZx0RhZC/Sr7AcjMEXGqoC0aHwh4Q8QDqVBgfRKYw3t6bT9UjsKZI7z2qU9m7CzvHiu3LnayxLbL78rmj7eXv6Lhz7BRsG6R+Rewy/1BsDpD7VPbAu/D8jy3bx7drXKU3TTe315UZXMfs7150SI0TXlLWtPUO1tZ+W/cDGoTypcn0heTURZRLBl82sGmtIDirPSaD32hdwBX1GAbd2IPtyiSFr05o3y2TPZmJwGm1e8xexTHMmNLEq1V06Glw7CkADj3t8iSHON+1TXuCqQiX5awxq+2IQAdlOczVnd4h3vc1tbXRaBqW1VmfyPu3qS8y5A/MvOssfLz5Jpk3Wk8Ww17PPy3xb5N4t/FUaTdLnf828a2vrabhvsK3fp+QE13Y4RvhR80zWK6jNxN2Ez0ifUt1qMO9r2hbWc31xkjYTrXe+VEpiaCbg9o/RQVXQS3msDzOrCon8eurxcvk5u2reem6xcXm/I3vXPz58++cp/NX1MWX136YZCW/Xr9M9+sR3GlTXBfaPBy0y5SDPPPg8KTbmY63NOyigNoeCiM7RK7rT6k3nfiJHxmmFYxyserzEA+RlE5QQOwEbuxkihw2jezAtbGHw74iuMHKDdz8h12gT3E9ep0+ZBrwNnHI8MBLxSHhnXcLRoSkxjy4GmpYKGZmC25Ws8PdQsLqt4lh96kZLGu3IMAsFRW8FpjL70FcYen1GMTVjlwUetMUdmCIqD9lfpg2Ceawn8ANXvOUg5r+DkvA2BjejRQYDMeUF72t0LwQSFic4oIvYLuR8BIAaw6Y3tQamB5FsK51zz2ebbtfP/0Nb9lMe88SAAA="
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "",
+          "httpVersion": "http/2.0",
+          "headers": [
+            {
+              "name": "access-control-allow-credentials",
+              "value": "true"
+            },
+            {
+              "name": "access-control-allow-origin",
+              "value": "https://app.twojtenis.pl"
+            },
+            {
+              "name": "content-length",
+              "value": "15"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            },
+            {
+              "name": "date",
+              "value": "Sun, 19 Apr 2026 12:49:40 GMT"
+            },
+            {
+              "name": "server",
+              "value": "envoy"
+            },
+            {
+              "name": "strict-transport-security",
+              "value": "max-age=31536000; includeSubDomains"
+            },
+            {
+              "name": "vary",
+              "value": "origin, access-control-request-method, access-control-request-headers"
+            },
+            {
+              "name": "x-envoy-upstream-service-time",
+              "value": "22"
+            }
+          ],
+          "cookies": [],
+          "content": {
+            "size": 15,
+            "mimeType": "application/json"
+          },
+          "redirectURL": "",
+          "headersSize": -1,
+          "bodySize": -1,
+          "_transferSize": 291,
+          "_error": null,
+          "_fetchedViaServiceWorker": false
+        },
+        "serverIPAddress": "3.125.74.254",
+        "startedDateTime": "2026-04-19T12:49:40.064Z",
+        "time": 56.6149998921901,
+        "timings": {
+          "blocked": 1.756999810114503,
+          "dns": -1,
+          "ssl": -1,
+          "connect": -1,
+          "send": 0.652,
+          "wait": 53.58800003293157,
+          "receive": 0.6180000491440296,
+          "_blocked_queueing": 1.136999810114503,
+          "_workerStart": -1,
+          "_workerReady": -1,
+          "_workerFetchStart": -1,
+          "_workerRespondWithSettled": -1
+        }
+      }
+    ]
+  }
+}
