@@ -3,7 +3,7 @@ import { detectSurface } from './surface'
 
 const BASE = '/api/tenis4u'
 
-const COURT_IDS = [103, 110, 104, 344, 218, 205]
+const COURT_IDS = [{id: 103, clubName: 'Sport Factory Park'}, {id: 204, clubName: 'SAO SPORTS HUB Piastowska'}, {id: 110, clubName: 'TCC Sport Resort KORTY'}, {id: 104, clubName: 'Fame Sport'}, {id: 344, clubName: 'KSU Grzegórzecki'}, { id: 218, clubName: 'Park Wola Sodowa'}, {id: 205, clubName: 'KS Grzegórzecki - Flex Wysłouchów 34'}]
 
 function toHHMM(timeStr: string): string {
   return timeStr?.slice(0, 5) ?? ''
@@ -12,6 +12,12 @@ function toHHMM(timeStr: string): string {
 function timeToMinutes(hhmm: string): number {
   const [h, m] = hhmm.split(':').map(Number)
   return h * 60 + m
+}
+
+function minutesToHHMM(minutes: number): string {
+  const h = Math.floor(minutes / 60).toString().padStart(2, '0')
+  const m = (minutes % 60).toString().padStart(2, '0')
+  return `${h}:${m}`
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,8 +41,11 @@ function extractSlots(occupancy: any, params: SearchParams): TimeSlot[] {
       const slotFromMin = timeToMinutes(from)
       const slotToMin = timeToMinutes(to)
 
-      if (slotFromMin >= fromMin && slotToMin <= toMin && slotToMin - slotFromMin >= params.forMinutes) {
-        slots.push({ from, to, courtName: station.name ?? undefined })
+      const effectiveFrom = Math.max(slotFromMin, fromMin)
+      const effectiveTo = Math.min(slotToMin, toMin)
+
+      if (effectiveTo - effectiveFrom >= (params.forMinutes ?? 60)) {
+        slots.push({ from: minutesToHHMM(effectiveFrom), to: minutesToHHMM(effectiveTo), courtName: station.name ?? undefined })
       }
     }
   }
@@ -79,28 +88,20 @@ export async function getTenis4uCalendar(courtId: string, clubName: string): Pro
 
 export async function searchTenis4u(params: SearchParams): Promise<ClubResult[]> {
   const results = await Promise.allSettled(
-    COURT_IDS.map(async (courtId) => {
-      const [occupancyResp, detailResp] = await Promise.all([
-        fetch(`${BASE}/occupancy/${courtId}`),
-        fetch(`${BASE}/court/${courtId}`),
-      ])
-
+    COURT_IDS.map(async ({id, clubName}) => {
+      const occupancyResp = await fetch(`${BASE}/occupancy/${id}`)
       if (!occupancyResp.ok) return null
 
       const occupancy = await occupancyResp.json()
-      const detail = detailResp.ok ? await detailResp.json() : {}
-
       const slots = extractSlots(occupancy, params)
       if (slots.length === 0) return null
 
-      const name = detail.name ?? detail.clubName ?? `Kort ${courtId}`
-
       return {
-        id: String(courtId),
-        clubName: name,
+        id,
+        clubName,
         platform: 'tenis4u' as const,
         slots,
-        bookingUrl: `https://app.tenis4u.pl/court/${courtId}`,
+        bookingUrl: `https://app.tenis4u.pl/court/${id}`,
       }
     }),
   )

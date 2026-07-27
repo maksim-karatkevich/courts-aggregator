@@ -10,6 +10,8 @@ export interface TimeSlot {
   to: string         // HH:MM
   price?: string
   courtName?: string
+  surfaceType?: string
+  courtType?: string
 }
 
 export interface ClubResult {
