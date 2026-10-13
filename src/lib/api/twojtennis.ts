@@ -1,211 +1,134 @@
-import type { ClubResult, SearchParams, TimeSlot } from '../types'
+import { cacheLife } from 'next/cache'
+import { Platform } from '../types'
+import type { ClubResult, SearchParams } from '../types'
+import { filterTwojTennisSlots, type LocationInfo, type RawFreeSlot } from './slot-filter'
 
+const TWOJTENNIS_BASE = 'https://app-twojtenis-api-p-weu.azurewebsites.net'
 const TECH_GROUP_URL = 'https://app-twojtenis-tech-krakow-api-p-weu.azurewebsites.net'
-const CLUB_DETAIL_URL = '/api/twojtennis/api/v1/Clubs'
-const CLUBS_SEARCH_URL = '/api/twojtennis/api/v1/Clubs/search'
-const FREESLOTS_URL = '/api/twojtennis-tech/api/v1/freeslots/search'
-const REGION_ID = '31e247b1-1682-4e58-ba05-1bba6ca9ed23' // Kraków
-const CACHE_TTL = 30 * 24 * 60 * 60 * 1000 // 30 days
+const CLUB_DETAIL_URL = `${TWOJTENNIS_BASE}/api/v1/Clubs`
+const CLUBS_SEARCH_URL = `${TWOJTENNIS_BASE}/api/v1/Clubs/search`
+const FREESLOTS_URL = `${TECH_GROUP_URL}/api/v1/freeslots/search`
+const REGION_ID = '31e247b1-1682-4e58-ba05-1bba6ca9ed23'
+const LOCATION_TYPE = 0
+const TIMEOUT_MS = 10_000
 
-// Club entry as returned by Clubs/search — has location IDs + closing times
-type GroupClub = {
+const HEADERS = {
+  Accept: 'application/json',
+  Origin: 'https://app.twojtenis.pl',
+  Referer: 'https://app.twojtenis.pl/',
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/146.0.0.0 Safari/537.36',
+}
+
+// ─── Raw API shapes ────────────────────────────────────────────────────────
+
+type RawClub = {
   id: string
   name: string
   isFavorite: boolean
-  locations: { id: string; from: string; to: string }[]
+  locations?: { id: string; from: string; to: string }[]
 }
 
-// Court detail from Clubs/{id}
-type ClubLocation = {
-  id: string
-  name: string
-  type: number
-  surfaceType: string
-  courtType: string
+type RawClubsResponse = { clubs?: RawClub[] }[]
+
+type RawLocationDetail = {
+  locations?: {
+    id: string
+    name: string
+    properties?: { SurfaceType?: string; TennisCourtType?: string }
+  }[]
 }
 
-// ─── Group cache (club list + location IDs) ────────────────────────────────
-// Only ever written from Clubs/search so location arrays are never empty.
-
-let memGroup: GroupClub[] | null = null
-
-const GROUP_CACHE_KEY = 'twojtennis_group_v2'
-
-function readGroupLs(): GroupClub[] | null {
-  try {
-    const raw = localStorage.getItem(GROUP_CACHE_KEY)
-    if (!raw) return null
-    const { clubs, savedAt } = JSON.parse(raw)
-    if (Date.now() - savedAt >= CACHE_TTL) return null
-    const valid = clubs.filter((c: GroupClub) => c.locations.length > 0)
-    return valid.length > 0 ? valid : null
-  } catch {
-    return null
-  }
+type RawFreeslotsResponse = {
+  clubs?: {
+    id: string
+    name?: string
+    containsEmptySlots: boolean
+    spans?: Record<string, RawFreeSlot[]>
+  }[]
 }
 
-function writeGroupLs(clubs: GroupClub[]) {
-  try {
-    localStorage.setItem(GROUP_CACHE_KEY, JSON.stringify({ clubs, savedAt: Date.now() }))
-  } catch {}
-}
+// ─── Cached fetchers ───────────────────────────────────────────────────────
+// Each fetcher throws on a bad response so failures are never cached.
 
-async function getGroup(from: string): Promise<GroupClub[]> {
-  const cached = memGroup ?? readGroupLs()
-  if (cached) return cached
+async function fetchClubs(date: string): Promise<RawClub[]> {
+  'use cache'
+  cacheLife({ stale: 0, expire: 24 * 60 * 60 })
 
-  // Cold cache — call Clubs/search once to discover clubs + location IDs
-  const resp = await fetch(CLUBS_SEARCH_URL, {
+  const res = await fetch(CLUBS_SEARCH_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      date: new Date().toISOString().slice(0, 10),
-      forMinutes: 60,
-      from: `${from}:00`,
-      to: '23:00:00',
-      locationType: 0,
-      regionId: REGION_ID,
-    }),
+    headers: { ...HEADERS, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ date, forMinutes: 60, from: '00:00:00', to: '23:00:00', locationType: LOCATION_TYPE, regionId: REGION_ID }),
+    signal: AbortSignal.timeout(TIMEOUT_MS),
   })
-  if (!resp.ok) throw new Error(`TwojTenis Clubs/search failed: ${resp.status}`)
-  const [group] = await resp.json()
-
-  const clubs: GroupClub[] = (group.clubs ?? []).map((c: any) => ({
-    id: c.id,
-    name: c.name,
-    isFavorite: c.isFavorite,
-    locations: c.locations ?? [],
-  })).filter((c: GroupClub) => c.locations.length > 0)
-
-  memGroup = clubs
-  writeGroupLs(clubs)
-  return clubs
+  if (!res.ok) throw new Error(`twojtennis clubs: ${res.status}`)
+  const [group]: RawClubsResponse = await res.json()
+  return group?.clubs ?? []
 }
 
-// ─── Club detail cache (court names + surface) ─────────────────────────────
+async function fetchLocationMap(clubIds: string[]): Promise<Record<string, LocationInfo>> {
+  'use cache'
+  cacheLife({ stale: 0, expire: 24 * 60 * 60 })
 
-const memDetails = new Map<string, ClubLocation[]>()
+  const details = await Promise.all(
+    clubIds.map(id =>
+      fetch(`${CLUB_DETAIL_URL}/${id}`, { headers: HEADERS, signal: AbortSignal.timeout(TIMEOUT_MS) })
+        .then(r => r.ok ? r.json() as Promise<RawLocationDetail> : { locations: [] })
+        .catch(() => ({ locations: [] as [] }))
+    )
+  )
 
-function readDetailLs(clubId: string): ClubLocation[] | null {
-  try {
-    const raw = localStorage.getItem(`twojtennis_club_${clubId}`)
-    if (!raw) return null
-    const { locations, savedAt } = JSON.parse(raw)
-    return Date.now() - savedAt < CACHE_TTL ? locations : null
-  } catch {
-    return null
-  }
-}
-
-function writeDetailLs(clubId: string, locations: ClubLocation[]) {
-  try {
-    localStorage.setItem(`twojtennis_club_${clubId}`, JSON.stringify({ locations, savedAt: Date.now() }))
-  } catch {}
-}
-
-async function fetchClubDetail(clubId: string): Promise<ClubLocation[]> {
-  if (memDetails.has(clubId)) return memDetails.get(clubId)!
-
-  const fromLs = readDetailLs(clubId)
-  if (fromLs) {
-    memDetails.set(clubId, fromLs)
-    return fromLs
-  }
-
-  const resp = await fetch(`${CLUB_DETAIL_URL}/${clubId}`, { headers: { Accept: 'application/json' } })
-  if (!resp.ok) return []
-
-  const data = await resp.json()
-  const locations: ClubLocation[] = (data.locations ?? []).map((l: any) => ({
-    id: l.id,
-    name: l.name as string,
-    type: l.type as number,
-    surfaceType: l.properties?.SurfaceType ?? '',
-    courtType: l.properties?.TennisCourtType ?? '',
-  }))
-
-  memDetails.set(clubId, locations)
-  writeDetailLs(clubId, locations)
-  return locations
-}
-
-async function buildLocationMap(clubIds: string[]): Promise<Map<string, ClubLocation>> {
-  const details = await Promise.all(clubIds.map(fetchClubDetail))
-  const map = new Map<string, ClubLocation>()
-  for (const locations of details) {
-    for (const loc of locations) map.set(loc.id, loc)
+  const map: Record<string, LocationInfo> = {}
+  for (const detail of details as RawLocationDetail[]) {
+    for (const loc of detail.locations ?? []) {
+      map[loc.id] = {
+        name: loc.name,
+        surfaceType: loc.properties?.SurfaceType,
+        courtType: loc.properties?.TennisCourtType,
+      }
+    }
   }
   return map
 }
 
-// ─── Core search ───────────────────────────────────────────────────────────
+// Full-day free slots for every club, cached per date. Filtering by the user's
+// window and duration happens afterwards, outside the cache.
+async function fetchFreeSlots(date: string): Promise<RawFreeslotsResponse> {
+  'use cache'
+  cacheLife({ stale: 0, expire: 15 * 60 })
+
+  const clubs = await fetchClubs(date)
+  const res = await fetch(FREESLOTS_URL, {
+    method: 'POST',
+    headers: { ...HEADERS, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ clubs, date, forMinutes: 60, locationType: LOCATION_TYPE, technicalGroupUrl: TECH_GROUP_URL }),
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+  })
+  if (!res.ok) throw new Error(`twojtennis freeslots: ${res.status}`)
+  const raw = await res.json()
+  return Array.isArray(raw) ? raw[0] : raw
+}
+
+// ─── Main export ───────────────────────────────────────────────────────────
 
 export async function searchTwojTennis(params: SearchParams): Promise<ClubResult[]> {
-  // Step 1: get club list (Clubs/search — cold cache only)
-  const group = await getGroup(params.from)
-
-  // Step 2: freeslots/search + Clubs/{id} detail fetches in parallel
-  const freeslotsBody = {
-    technicalGroupUrl: TECH_GROUP_URL,
-    locationType: 0,
-    date: params.date,
-    forMinutes: params.forMinutes,
-    clubs: group.map(c => ({
-      id: c.id,
-      name: c.name,
-      isFavorite: c.isFavorite,
-      locations: c.locations.map(l => ({
-        id: l.id,
-        from: `${params.from}:00`,
-        to: l.to,
-      })),
-    })),
-  }
-
-  const [freeslotsResp, locationMap] = await Promise.all([
-    fetch(FREESLOTS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(freeslotsBody),
-    }),
-    buildLocationMap(group.map(c => c.id)),
+  const clubs = await fetchClubs(params.date)
+  const [freeslots, locationMap] = await Promise.all([
+    fetchFreeSlots(params.date),
+    fetchLocationMap(clubs.map(c => c.id)),
   ])
 
-  if (!freeslotsResp.ok) throw new Error(`TwojTenis freeslots failed: ${freeslotsResp.status}`)
-  const raw = await freeslotsResp.json()
-  const data = Array.isArray(raw) ? raw[0] : raw
-
-  // Step 3: normalize — only clubs with actual free spans
-  const clubs: any[] = data?.clubs ?? []
   const results: ClubResult[] = []
 
-  for (const club of clubs) {
+  for (const club of freeslots?.clubs ?? []) {
     if (!club.containsEmptySlots) continue
 
-    const slots: TimeSlot[] = []
-    const spans: Record<string, { from: string; to: string }[]> = club.spans ?? {}
-
-    for (const [locId, locSlots] of Object.entries(spans)) {
-      const detail = locationMap.get(locId)
-      for (const s of locSlots) {
-        const from = s.from.slice(0, 5)
-        const to = s.to.slice(0, 5)
-        if (from && to) slots.push({
-          from,
-          to,
-          courtName: detail?.name,
-          surfaceType: detail?.surfaceType,
-          courtType: detail?.courtType,
-        })
-      }
-    }
-
+    const slots = filterTwojTennisSlots(club.spans ?? {}, locationMap, params)
     if (slots.length === 0) continue
 
     results.push({
       id: club.id,
       clubName: club.name ?? 'Nieznany klub',
-      platform: 'twojtennis',
+      platform: Platform.TwojTennis,
       slots,
       bookingUrl: `https://app.twojtenis.pl/#/clubs/${club.id}?tab=bookings`,
     })

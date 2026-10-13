@@ -1,21 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
+import type { SearchParams } from '@/lib/types'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
-export interface SearchParams {
-  date: string  // YYYY-MM-DD
-  from: string  // HH:MM
-  to: string    // HH:MM
-}
+type FormParams = Omit<SearchParams, 'forMinutes'>
 
 interface Props {
-  onSearch: (params: SearchParams) => void
+  onSearch: (params: FormParams) => void
   loading?: boolean
 }
 
@@ -32,19 +29,31 @@ function generateTimeSlots(startHour: number, endHour: number): string[] {
 const TIME_SLOTS = generateTimeSlots(6, 23)
 
 export function SearchForm({ onSearch, loading }: Props) {
-  const [date, setDate] = useState<Date>(new Date())
+  const [date, setDate] = useState<Date | undefined>(undefined)
+  const [today, setToday] = useState<Date | undefined>(undefined)
   const [from, setFrom] = useState('07:00')
   const [to, setTo] = useState('23:00')
   const [open, setOpen] = useState(false)
 
-  const toSlots = TIME_SLOTS.filter((t) => t > from)
+  useEffect(() => {
+    const now = new Date()
+    setToday(now)
+    setDate(now)
+  }, [])
+
+  const MIN_DURATION_SLOTS = 2 // 2 × 30 min = 1 hour
+  const fromIndex = TIME_SLOTS.indexOf(from)
+  const toSlots = TIME_SLOTS.slice(fromIndex + MIN_DURATION_SLOTS)
 
   function handleFromChange(v: string) {
     setFrom(v)
-    if (to <= v) setTo(TIME_SLOTS[TIME_SLOTS.indexOf(v) + 1])
+    const newFromIndex = TIME_SLOTS.indexOf(v)
+    const minTo = TIME_SLOTS[newFromIndex + MIN_DURATION_SLOTS]
+    if (minTo && to < minTo) setTo(minTo)
   }
 
   function handleSubmit() {
+    if (!date) return
     onSearch({ date: format(date, 'yyyy-MM-dd'), from, to })
   }
 
@@ -65,7 +74,7 @@ export function SearchForm({ onSearch, loading }: Props) {
               mode="single"
               selected={date}
               onSelect={(d) => { if (d) { setDate(d); setOpen(false) } }}
-              disabled={{ before: new Date() }}
+              disabled={today ? { before: today } : undefined}
             />
           </PopoverContent>
         </Popover>

@@ -1,3 +1,10 @@
+export const Platform = {
+  Tenis4u: 'tenis4u',
+  TwojTennis: 'twojtennis',
+} as const
+
+export type Platform = typeof Platform[keyof typeof Platform]
+
 export interface SearchParams {
   date: string       // YYYY-MM-DD
   from: string       // HH:MM
@@ -11,13 +18,13 @@ export interface TimeSlot {
   price?: string
   courtName?: string
   surfaceType?: string
-  courtType?: string
+  courtType?: string;
 }
 
 export interface ClubResult {
   id: string
   clubName: string
-  platform: 'twojtennis' | 'tenis4u'
+  platform: Platform
   slots: TimeSlot[]
   bookingUrl: string
 }
@@ -37,7 +44,7 @@ export interface StationCalendar {
 export interface ClubCalendar {
   clubId: string
   clubName: string
-  platform: 'twojtennis' | 'tenis4u'
+  platform: Platform
   bookingUrl: string
   stations: StationCalendar[]
 }
