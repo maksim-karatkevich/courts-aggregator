@@ -1,7 +1,9 @@
 # UX Redesign — Search, Results, Calendar & Favorites
 
 **Date:** 2026-10-13  
-**Status:** Approved for implementation
+**Status:** Approved for implementation  
+**Revised:** 2026-10-13: the calendar shows the club's full day, and `/api/search` returns full-day slots (sections 3, 4, 6)  
+**Revised:** 2026-10-15: favorites storage and user accounts are defined in the accounts & preferences spec (sections 5, 8)
 
 ## Overview
 
@@ -31,7 +33,7 @@ Desktop uses a **two-column layout** that fills the viewport height below the se
 
 Each card shows:
 - Club name + surface/court count summary
-- Available slot count + earliest–latest time range
+- Available slot count + earliest–latest time range, counted **within the search window only**
 - Star icon to toggle favorite
 - Chevron `›` that turns blue when selected
 
@@ -45,12 +47,20 @@ Clicking a card marks it selected (blue left border, dark blue tint) and trigger
 
 ## 3. Calendar Panel
 
-The calendar panel shows all courts for the selected club as a grid:
+The calendar panel shows all courts for the selected club as a grid covering the **club's full day**, not just the search window:
 
-- **Rows:** Time slots (e.g. 13:00, 14:00, … 19:00) matching the search window
+- **Rows:** One per hour, 07:00 – 22:00 (the last row is 22:00 – 23:00)
 - **Columns:** Up to 7 courts, each with name and surface type in the header
-- **Cells:** Green (`wolny`) if available, dark empty if taken
+- **Cells:** Green (`wolny`) if the court is free for that whole hour, dark empty if taken
 - Clicking a green cell opens the club's booking URL in a new tab
+
+**Search window highlight.** Rows inside the searched window (e.g. 13:00 – 16:00 for a 13:00 – 17:00 search) get a light blue background, blue time labels, and a thin blue line above the first and below the last window row. A legend under the header shows `wolny`, `zajęty` and `Twoje okno 13:00 – 17:00`.
+
+**Initial scroll.** The grid scrolls vertically inside the panel. When it opens, it is scrolled so the hour before the window is the first visible row, with the window directly below it. The rest of the day is reachable by scrolling, with no toggle.
+
+**Why the full day:** the results list already filters by the window, so clubs with nothing in it never appear. Opening a club signals interest in that club, so free courts just outside the window (e.g. 17:00 or 18:00) are useful, not noise.
+
+Mockup: `.superpowers/mockups/calendar-time-range.html`
 
 Panel header:
 - Club name (large, bold)
@@ -70,7 +80,9 @@ Tapping a card navigates to a dedicated calendar page (`/club/[id]`). This page 
 - Back button (`← Wyniki`) that returns to the search results
 - Club name + date in the header
 - `Zarezerwuj →` button
-- Same court × time slot grid, horizontally scrollable
+- Same court × time slot grid (full day, window highlighted, same initial scroll), horizontally scrollable
+
+The search params travel in the URL (`/club/[id]?date=…&from=…&to=…&forMinutes=…`). The page calls `/api/search` with them and picks this club from the response. Without `from`/`to` (e.g. opened from a shared link), it searches the full day for `date` (default today) and highlights nothing.
 
 No split view on mobile — screen is too narrow to fit both panels.
 
@@ -78,19 +90,32 @@ No split view on mobile — screen is too narrow to fit both panels.
 
 ## 5. Favorites
 
-Favorites are stored in `localStorage` under a single key (e.g. `favClubIds`), as a JSON array of club IDs. No login required.
+Star icon on each club card (results list and calendar header) toggles favorite status. Favorited clubs appear at the top of results under `⭐ Ulubione`. A favorite with no availability on the searched date is hidden, not shown with zero slots.
 
-Behavior:
-- Star icon on each club card (results list and calendar header) toggles favorite status
-- Favorited clubs always appear at the top of results under `⭐ Ulubione`, separated from the rest by a divider
-- Favorites persist across sessions and survive page refresh
-- If a favorited club has no availability on the searched date, it is hidden from the favorites section (not shown with zero slots)
+Storage and syncing (browser for signed-out users, account for signed-in users) are defined in the [accounts & preferences spec](2026-10-15-accounts-and-preferences-design.md).
 
 ---
 
 ## 6. Data Considerations
 
-The existing `/api/search` endpoint returns `ClubResult[]` with `slots: TimeSlot[]` per club. The calendar grid needs slots grouped by court (`courtName`) and by start time. This grouping already exists in `ClubList.tsx` (`groupByCourt`). The same logic moves into the calendar panel component.
+The server already fetches and caches each club's **full day** from tenis4u and twojtennis; the search window is applied afterwards in our own code (`slot-filter.ts`). Today `/api/search` returns only the slots clipped to the window, so the browser never sees the rest of the day. The calendar needs that rest.
+
+**Change:** `ClubResult` gets a second slot list:
+
+```ts
+interface ClubResult {
+  // …existing fields
+  slots: TimeSlot[]     // clipped to the search window and duration (unchanged)
+  daySlots: TimeSlot[]  // all free spans for the date, not clipped, no duration filter
+}
+```
+
+- **Which clubs are returned** doesn't change: a club is included only if `slots` is non-empty, i.e. it has something free in the window.
+- The **results list and card counts** use `slots`.
+- The **calendar** uses `daySlots`. A cell (court × hour) is free if some span for that court covers the whole hour. Grouping by court reuses the `groupByCourt` logic from `ClubList.tsx`, moved into the calendar component.
+- The highlight comes from the search params (`from`, `to`), not from the data.
+
+This is one request per search, and opening a club needs no extra request, so the calendar appears instantly. Fetching and caching are unchanged; only what the filter step returns grows. The response only gets bigger for clubs already in the list.
 
 No new API endpoints needed for this redesign.
 
@@ -111,4 +136,4 @@ This is a thin layer on top of the existing Next.js app, not a separate build ta
 - Slot availability alerts / push notifications
 - Telegram or WhatsApp bot
 - In-app booking (no platform credentials)
-- Authentication or user accounts
+- Authentication or user accounts: moved to the [accounts & preferences spec](2026-10-15-accounts-and-preferences-design.md)
