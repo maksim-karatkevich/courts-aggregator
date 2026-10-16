@@ -63,6 +63,11 @@ describe('validation', () => {
     const favorites = Array.from({ length: 201 }, (_, i) => `tenis4u:${i}`)
     expect((await merge(post('/m', { favorites }))).status).toBe(400)
   })
+  it('merge with an over-long club id is 400 and writes nothing', async () => {
+    const res = await merge(post('/m', { favorites: ['tenis4u:' + 'x'.repeat(65)] }))
+    expect(res.status).toBe(400)
+    expect(await holder.db!.select().from(favorite)).toHaveLength(0)
+  })
   it('merge with an invalid key is 400 and writes nothing', async () => {
     const res = await merge(post('/m', { favorites: ['tenis4u:1', 'bad'] }))
     expect(res.status).toBe(400)

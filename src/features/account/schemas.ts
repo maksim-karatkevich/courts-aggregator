@@ -12,6 +12,6 @@ export const bookingClickSchema = clubRefSchema.extend({
 
 export const mergeSchema = z.object({
   favorites: z
-    .array(z.string().refine((key) => parseClubKey(key) !== null))
+    .array(z.string().refine((key) => clubRefSchema.safeParse(parseClubKey(key)).success))
     .max(200),
 })
