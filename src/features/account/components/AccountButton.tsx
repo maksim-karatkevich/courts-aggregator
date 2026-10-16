@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { authClient } from '@/lib/auth-client'
+import { deleteErrorKind, type DeleteErrorKind } from '../delete-error'
 import { signOutAndClear } from '../hooks'
 
 export function AccountButton() {
@@ -10,14 +11,14 @@ export function AccountButton() {
   const session = authClient.useSession()
   const [open, setOpen] = useState(false)
   const [confirming, setConfirming] = useState(false)
-  const [deleteFailed, setDeleteFailed] = useState(false)
+  const [deleteFailed, setDeleteFailed] = useState<DeleteErrorKind | null>(null)
   const [busy, setBusy] = useState(false)
   const root = useRef<HTMLDivElement>(null)
 
   const close = () => {
     setOpen(false)
     setConfirming(false)
-    setDeleteFailed(false)
+    setDeleteFailed(null)
   }
 
   useEffect(() => {
@@ -64,17 +65,17 @@ export function AccountButton() {
 
   const deleteAccount = async () => {
     setBusy(true)
-    setDeleteFailed(false)
+    setDeleteFailed(null)
     try {
       const res = await authClient.deleteUser()
       if (res.error) {
-        setDeleteFailed(true)
+        setDeleteFailed(deleteErrorKind(res.error))
         return
       }
       await signOutAndClear(queryClient).catch(() => {})
       close()
     } catch {
-      setDeleteFailed(true)
+      setDeleteFailed('retry')
     } finally {
       setBusy(false)
     }
@@ -84,7 +85,7 @@ export function AccountButton() {
     <div ref={root} className="relative">
       <button
         type="button"
-        aria-haspopup="menu"
+        aria-haspopup="true"
         aria-expanded={open}
         aria-label={user.name || user.email}
         onClick={() => (open ? close() : setOpen(true))}
@@ -104,7 +105,23 @@ export function AccountButton() {
           {confirming ? (
             <div className="flex flex-col gap-2">
               <p className="text-xs">Usunąć konto? Ulubione i historia rezerwacji zostaną trwale usunięte.</p>
-              {deleteFailed && <p className="text-xs text-red-600">Nie udało się zapisać. Spróbuj ponownie.</p>}
+              {deleteFailed === 'retry' && (
+                <p className="text-xs text-red-600">Nie udało się zapisać. Spróbuj ponownie.</p>
+              )}
+              {deleteFailed === 'reauth' && (
+                <div className="flex flex-col items-start gap-1">
+                  <p className="text-xs text-red-600">Zaloguj się ponownie, aby usunąć konto</p>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      void authClient.signIn.social({ provider: 'google', callbackURL: window.location.href })
+                    }
+                    className="rounded-md border px-2.5 py-1 text-xs font-medium"
+                  >
+                    Zaloguj ponownie
+                  </button>
+                </div>
+              )}
               <div className="flex gap-2">
                 <button
                   type="button"
@@ -119,7 +136,7 @@ export function AccountButton() {
                   disabled={busy}
                   onClick={() => {
                     setConfirming(false)
-                    setDeleteFailed(false)
+                    setDeleteFailed(null)
                   }}
                   className="rounded-md border px-2.5 py-1 text-xs font-medium"
                 >
