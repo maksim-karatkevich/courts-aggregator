@@ -3,26 +3,38 @@
 import { useEffect, useRef } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { authClient } from '@/lib/auth-client'
-import { readLocalFavorites, writeLocalFavorites } from '../local-favorites'
+import {
+  readLocalFavorites,
+  readLocalOwner,
+  writeLocalFavorites,
+  writeLocalOwner,
+} from '../local-favorites'
+import type { Preferences } from '../types'
 
 // Merges signed-out favorites into the account once per sign-in. Renders nothing.
+// A localStorage owner marker tells a real sign-in from a page reload with a live session.
 export function AccountSync() {
   const queryClient = useQueryClient()
-  const userId = authClient.useSession().data?.user.id ?? null
-  const mergedFor = useRef<string | null>(null)
+  const session = authClient.useSession()
+  const userId = session.isPending ? null : (session.data?.user.id ?? null)
+  const inFlightFor = useRef<string | null>(null)
 
   useEffect(() => {
+    if (session.isPending) return
     if (!userId) {
-      mergedFor.current = null
+      inFlightFor.current = null
       return
     }
-    if (mergedFor.current === userId) return
-    mergedFor.current = userId
+    if (inFlightFor.current === userId || readLocalOwner() === userId) return
+    inFlightFor.current = userId
 
     void (async () => {
+      let merged = false
       try {
         const local = readLocalFavorites()
-        if (local.length > 0) {
+        if (local.length === 0) {
+          merged = true
+        } else {
           const res = await fetch('/api/me/favorites/merge', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -32,14 +44,26 @@ export function AccountSync() {
             const body = (await res.json()) as { favorites: string[] }
             writeLocalFavorites(body.favorites)
             queryClient.setQueryData(['local-favorites'], body.favorites)
+            merged = true
           }
         }
       } catch {
-        // merge is best effort; the server list still loads below
+        // merge is best effort; retried on the next load because the owner is not written
       }
-      void queryClient.invalidateQueries({ queryKey: ['preferences'] })
+      if (!merged) return
+      writeLocalOwner(userId)
+      try {
+        await queryClient.invalidateQueries({ queryKey: ['preferences'] })
+        const server = queryClient.getQueryData<Preferences>(['preferences'])
+        if (server) {
+          writeLocalFavorites(server.favorites)
+          queryClient.setQueryData(['local-favorites'], server.favorites)
+        }
+      } catch {
+        // refetch failed: the merge result stays as the local copy
+      }
     })()
-  }, [userId, queryClient])
+  }, [session.isPending, userId, queryClient])
 
   return null
 }

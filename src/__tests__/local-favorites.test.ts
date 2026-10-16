@@ -3,6 +3,8 @@ import {
   readLocalFavorites,
   writeLocalFavorites,
   clearLocalFavorites,
+  readLocalOwner,
+  writeLocalOwner,
   type KeyStore,
 } from '@/features/account/local-favorites'
 
@@ -66,5 +68,27 @@ describe('local favorites', () => {
     expect(readLocalFavorites()).toEqual([])
     expect(() => writeLocalFavorites(['tenis4u:1'])).not.toThrow()
     expect(() => clearLocalFavorites()).not.toThrow()
+  })
+
+  it('round-trips the owner and is null when unset', () => {
+    const s = fakeStore()
+    expect(readLocalOwner(s)).toBeNull()
+    writeLocalOwner('u1', s)
+    expect(readLocalOwner(s)).toBe('u1')
+  })
+
+  it('owner functions never throw on a throwing store', () => {
+    const bad: KeyStore = { getItem: throwing, setItem: throwing, removeItem: throwing }
+    expect(readLocalOwner(bad)).toBeNull()
+    expect(() => writeLocalOwner('u1', bad)).not.toThrow()
+  })
+
+  it('clear removes the owner too', () => {
+    const s = fakeStore()
+    writeLocalFavorites(['tenis4u:1'], s)
+    writeLocalOwner('u1', s)
+    clearLocalFavorites(s)
+    expect(readLocalOwner(s)).toBeNull()
+    expect(readLocalFavorites(s)).toEqual([])
   })
 })

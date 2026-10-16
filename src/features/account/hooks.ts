@@ -3,7 +3,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query'
 import { authClient } from '@/lib/auth-client'
-import { clearLocalFavorites, readLocalFavorites, writeLocalFavorites } from './local-favorites'
+import {
+  clearLocalFavorites,
+  readLocalFavorites,
+  readLocalOwner,
+  writeLocalFavorites,
+  writeLocalOwner,
+} from './local-favorites'
 import { clubKey, type ClubRef, type Preferences } from './types'
 
 const LOCAL_KEY = ['local-favorites'] as const
@@ -20,8 +26,9 @@ async function fetchPreferences(): Promise<Preferences> {
   return (await res.json()) as Preferences
 }
 
-function useSignedIn(): boolean {
-  return Boolean(authClient.useSession().data?.user)
+function useSessionState(): { userId: string | null; ready: boolean } {
+  const session = authClient.useSession()
+  return { userId: session.data?.user.id ?? null, ready: !session.isPending }
 }
 
 // Signed-out favorites live in the query cache so every component using these hooks agrees.
@@ -35,8 +42,15 @@ function useLocalFavorites(): string[] {
   return data ?? []
 }
 
-export function usePreferences(): { prefs: Preferences; signedIn: boolean; failed: boolean } {
-  const signedIn = useSignedIn()
+export function usePreferences(): {
+  prefs: Preferences
+  signedIn: boolean
+  failed: boolean
+  ready: boolean
+} {
+  const queryClient = useQueryClient()
+  const { userId, ready } = useSessionState()
+  const signedIn = userId !== null
   const local = useLocalFavorites()
   const query = useQuery({
     queryKey: PREFS_KEY,
@@ -44,22 +58,31 @@ export function usePreferences(): { prefs: Preferences; signedIn: boolean; faile
     enabled: signedIn,
   })
 
-  if (!signedIn) return { prefs: { favorites: local, booked: [] }, signedIn: false, failed: false }
-  if (query.data) return { prefs: query.data, signedIn: true, failed: false }
-  return {
-    prefs: { favorites: local, booked: [] },
-    signedIn: true,
-    failed: query.isError,
+  // The server's answer overwrites the quick-load copy, but only once this user owns the
+  // local copy (after any pending merge), so unmerged local favorites are never wiped.
+  const data = query.data
+  useEffect(() => {
+    if (!userId || !data || readLocalOwner() !== userId) return
+    writeLocalFavorites(data.favorites)
+    writeLocalOwner(userId)
+    queryClient.setQueryData(LOCAL_KEY, data.favorites)
+  }, [data, userId, queryClient])
+
+  if (!signedIn) {
+    return { prefs: { favorites: local, booked: [] }, signedIn: false, failed: false, ready }
   }
+  if (data) return { prefs: data, signedIn: true, failed: false, ready }
+  return { prefs: { favorites: local, booked: [] }, signedIn: true, failed: query.isError, ready }
 }
 
 export function useFavorites(): {
   isFavorite: (key: string) => boolean
   toggle: (ref: ClubRef) => void
   error: boolean
+  ready: boolean
 } {
   const queryClient = useQueryClient()
-  const { prefs, signedIn } = usePreferences()
+  const { prefs, signedIn, ready } = usePreferences()
   const [error, setError] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -80,6 +103,7 @@ export function useFavorites(): {
 
   const toggle = useCallback(
     (ref: ClubRef) => {
+      if (!ready) return
       const key = clubKey(ref)
       // Always read the cache at call time so rapid toggles never act on a stale closure.
       const current = (): string[] => {
@@ -114,32 +138,25 @@ export function useFavorites(): {
           flagError()
           return
         }
-        // Server is the truth: refetch, then mirror its list into the localStorage quick-load copy.
-        try {
-          await queryClient.invalidateQueries({ queryKey: PREFS_KEY })
-          const server = queryClient.getQueryData<Preferences>(PREFS_KEY)
-          if (server) {
-            writeLocalFavorites(server.favorites)
-            queryClient.setQueryData(LOCAL_KEY, server.favorites)
-          }
-        } catch {
-          // refetch failed: the optimistic cache stands
-        }
+        // Server is the truth: refetch; usePreferences mirrors the result into localStorage.
+        void queryClient.invalidateQueries({ queryKey: PREFS_KEY })
       })()
     },
-    [queryClient, signedIn, flagError]
+    [queryClient, signedIn, ready, flagError]
   )
 
-  return { isFavorite, toggle, error }
+  return { isFavorite, toggle, error, ready }
 }
 
 export function useRecordBookingClick(): (ref: ClubRef, court: string | null) => void {
   const queryClient = useQueryClient()
-  const signedIn = useSignedIn()
+  const { userId, ready } = useSessionState()
+  // Pending counts as maybe-signed-in: the server answers 401 if not, which is swallowed.
+  const knownSignedOut = ready && userId === null
 
   return useCallback(
     (ref: ClubRef, court: string | null) => {
-      if (!signedIn) return
+      if (knownSignedOut) return
       try {
         void fetch('/api/me/booking-clicks', {
           method: 'POST',
@@ -155,7 +172,7 @@ export function useRecordBookingClick(): (ref: ClubRef, court: string | null) =>
         // never block the booking link
       }
     },
-    [queryClient, signedIn]
+    [queryClient, knownSignedOut]
   )
 }
 
