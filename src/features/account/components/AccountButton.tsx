@@ -13,6 +13,7 @@ export function AccountButton() {
   const [confirming, setConfirming] = useState(false)
   const [deleteFailed, setDeleteFailed] = useState<DeleteErrorKind | null>(null)
   const [busy, setBusy] = useState(false)
+  const [redirecting, setRedirecting] = useState(false)
   const root = useRef<HTMLDivElement>(null)
 
   const close = () => {
@@ -61,6 +62,16 @@ export function AccountButton() {
       // local state is cleared regardless
     }
     close()
+  }
+
+  const reauth = async () => {
+    setRedirecting(true)
+    try {
+      const res = await authClient.signIn.social({ provider: 'google', callbackURL: window.location.href })
+      if (res.error) setRedirecting(false)
+    } catch {
+      setRedirecting(false)
+    }
   }
 
   const deleteAccount = async () => {
@@ -113,10 +124,9 @@ export function AccountButton() {
                   <p className="text-xs text-red-600">Zaloguj się ponownie, aby usunąć konto</p>
                   <button
                     type="button"
-                    onClick={() =>
-                      void authClient.signIn.social({ provider: 'google', callbackURL: window.location.href })
-                    }
-                    className="rounded-md border px-2.5 py-1 text-xs font-medium"
+                    disabled={redirecting}
+                    onClick={() => void reauth()}
+                    className="rounded-md border px-2.5 py-1 text-xs font-medium disabled:opacity-50"
                   >
                     Zaloguj ponownie
                   </button>
