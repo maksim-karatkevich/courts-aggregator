@@ -13,6 +13,8 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     },
   },
+  // Google's access/refresh tokens are stored encrypted (with BETTER_AUTH_SECRET).
+  account: { encryptOAuthTokens: true },
   user: { deleteUser: { enabled: true } },
   plugins: [nextCookies()],
 })

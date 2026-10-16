@@ -223,7 +223,7 @@ Secrets go in `.env.local` locally and in Vercel settings for production, never 
 
 ## 10. Privacy
 
-- Stored: name, email, avatar, favorites and booking clicks. Nothing more.
+- Stored: name, email, avatar, favorites and booking clicks. Better Auth also stores the Google sign-in tokens (encrypted) and, per session, the IP address and browser user agent. Nothing more.
 - **"Usuń konto"** deletes the user. Their favorites, booking history and sessions are removed automatically with them (the database deletes rows that point at a deleted user).
 - The app is used in the EU, where users have the right to have their data deleted; building it in now is much easier than adding it later.
 
