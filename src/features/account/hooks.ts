@@ -10,7 +10,8 @@ import {
   writeLocalFavorites,
   writeLocalOwner,
 } from './local-favorites'
-import { clubKey, type ClubRef, type Preferences } from './types'
+import { shouldMirror } from './sync-decision'
+import { clubKey, toPreferences, type ClubRef, type Preferences } from './types'
 
 const LOCAL_KEY = ['local-favorites'] as const
 const PREFS_KEY = ['preferences'] as const
@@ -23,7 +24,7 @@ function favoritePath(ref: ClubRef): string {
 async function fetchPreferences(): Promise<Preferences> {
   const res = await fetch('/api/me/preferences')
   if (!res.ok) throw new Error(`preferences ${res.status}`)
-  return (await res.json()) as Preferences
+  return toPreferences(await res.json())
 }
 
 function useSessionState(): { userId: string | null; ready: boolean } {
@@ -62,7 +63,7 @@ export function usePreferences(): {
   // local copy (after any pending merge), so unmerged local favorites are never wiped.
   const data = query.data
   useEffect(() => {
-    if (!userId || !data || readLocalOwner() !== userId) return
+    if (!userId || !data || !shouldMirror(userId, readLocalOwner())) return
     writeLocalFavorites(data.favorites)
     writeLocalOwner(userId)
     queryClient.setQueryData(LOCAL_KEY, data.favorites)

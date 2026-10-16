@@ -10,6 +10,7 @@ import {
   writeLocalFavorites,
   writeLocalOwner,
 } from '../local-favorites'
+import { decideSync } from '../sync-decision'
 import type { Preferences } from '../types'
 
 // Merges signed-out favorites into the account once per sign-in. Renders nothing.
@@ -21,46 +22,53 @@ export function AccountSync() {
   const inFlightFor = useRef<string | null>(null)
 
   useEffect(() => {
-    if (session.isPending) return
-    if (!userId) {
-      inFlightFor.current = null
-      // Known signed out but an owner marker remains: it is a previous account's mirror
-      // (session expired, or signed out in another tab). A signed-out user's own favorites have no owner.
-      if (readLocalOwner() !== null) {
-        clearLocalFavorites()
-        queryClient.setQueryData(['local-favorites'], [])
-      }
+    if (!session.isPending && !userId) inFlightFor.current = null // signed out: abandon any merge
+    const local = userId ? readLocalFavorites() : []
+    const action = decideSync({
+      pending: session.isPending,
+      userId,
+      owner: readLocalOwner(),
+      inFlight: userId !== null && inFlightFor.current === userId,
+      localCount: local.length,
+    })
+
+    if (action === 'clear') {
+      clearLocalFavorites()
+      queryClient.setQueryData(['local-favorites'], [])
       return
     }
-    if (inFlightFor.current === userId || readLocalOwner() === userId) return
+    if ((action !== 'merge' && action !== 'own') || !userId) return
     inFlightFor.current = userId
+    // After every await: stop if the user signed out (or switched) meanwhile, so a late
+    // response never writes this user's list or owner marker.
+    const stillCurrent = () => inFlightFor.current === userId
 
     void (async () => {
-      let merged = false
-      try {
-        const local = readLocalFavorites()
-        if (local.length === 0) {
-          merged = true
-        } else {
+      let merged = action === 'own'
+      if (action === 'merge') {
+        try {
           const res = await fetch('/api/me/favorites/merge', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ favorites: local }),
           })
+          if (!stillCurrent()) return
           if (res.ok) {
             const body = (await res.json()) as { favorites: string[] }
+            if (!stillCurrent()) return
             writeLocalFavorites(body.favorites)
             queryClient.setQueryData(['local-favorites'], body.favorites)
             merged = true
           }
+        } catch {
+          // merge is best effort; retried on the next load because the owner is not written
         }
-      } catch {
-        // merge is best effort; retried on the next load because the owner is not written
       }
-      if (!merged) return
+      if (!merged || !stillCurrent()) return
       writeLocalOwner(userId)
       try {
         await queryClient.invalidateQueries({ queryKey: ['preferences'] })
+        if (!stillCurrent()) return
         const server = queryClient.getQueryData<Preferences>(['preferences'])
         if (server) {
           writeLocalFavorites(server.favorites)
