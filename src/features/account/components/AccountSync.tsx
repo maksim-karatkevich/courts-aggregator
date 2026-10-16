@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { authClient } from '@/lib/auth-client'
 import {
+  clearLocalFavorites,
   readLocalFavorites,
   readLocalOwner,
   writeLocalFavorites,
@@ -23,6 +24,12 @@ export function AccountSync() {
     if (session.isPending) return
     if (!userId) {
       inFlightFor.current = null
+      // Known signed out but an owner marker remains: it is a previous account's mirror
+      // (session expired, or signed out in another tab). A signed-out user's own favorites have no owner.
+      if (readLocalOwner() !== null) {
+        clearLocalFavorites()
+        queryClient.setQueryData(['local-favorites'], [])
+      }
       return
     }
     if (inFlightFor.current === userId || readLocalOwner() === userId) return

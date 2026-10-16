@@ -5,6 +5,7 @@ import { SearchForm } from '@/features/search/components/SearchForm'
 import type { ClubResult, SearchParams } from '@/lib/types'
 import { ClubList, ClubListSkeleton } from '@/features/club/components/ClubList'
 import { ErrorBoundary } from '@/components/error-boundary'
+import { AccountButton } from '@/features/account/components/AccountButton'
 const MIN_TIME_PERIOD = 60;
 
 
@@ -25,10 +26,13 @@ export default function HomePage() {
 
 return (
   <main className="flex min-h-svh flex-col items-center justify-center gap-8 p-6">
-    <div className="text-center">
-      <h1 className="text-3xl font-bold tracking-tight">Korty Kraków</h1>
-      <p className="mt-1 text-sm text-muted-foreground">Dostępność kortów tenisowych w jednym miejscu</p>
-    </div>
+    <header className="flex w-full max-w-[760px] items-start justify-between gap-4">
+      <div className="flex-1 text-center">
+        <h1 className="text-3xl font-bold tracking-tight">Korty Kraków</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Dostępność kortów tenisowych w jednym miejscu</p>
+      </div>
+      <AccountButton />
+    </header>
     <SearchForm loading={loading} onSearch={search} />
     {clubs && (
       <Suspense fallback={<ClubListSkeleton />}>

@@ -177,8 +177,12 @@ export function useRecordBookingClick(): (ref: ClubRef, court: string | null) =>
 }
 
 export async function signOutAndClear(queryClient: QueryClient): Promise<void> {
-  await authClient.signOut()
-  clearLocalFavorites()
-  queryClient.setQueryData(LOCAL_KEY, [])
-  queryClient.removeQueries({ queryKey: PREFS_KEY })
+  try {
+    await authClient.signOut()
+  } finally {
+    // Local state is cleared even if the server call fails.
+    clearLocalFavorites()
+    queryClient.setQueryData(LOCAL_KEY, [])
+    queryClient.removeQueries({ queryKey: PREFS_KEY })
+  }
 }
