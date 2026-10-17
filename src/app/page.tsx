@@ -3,7 +3,8 @@
 import { Suspense, useCallback, useState } from 'react'
 import { SearchForm } from '@/features/search/components/SearchForm'
 import type { ClubResult, SearchParams } from '@/lib/types'
-import { ClubList, ClubListSkeleton } from '@/features/club/components/ClubList'
+import { ClubList } from '@/features/club/components/ClubList'
+import { ClubListSkeleton } from '@/features/club/components/ClubListSkeleton'
 import { ErrorBoundary } from '@/components/error-boundary'
 import { AccountButton } from '@/features/account/components/AccountButton'
 const MIN_TIME_PERIOD = 60;
