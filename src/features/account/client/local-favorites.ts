@@ -1,4 +1,4 @@
-import { parseClubKey } from './types'
+import { parseClubKey } from '../model/club-key'
 
 export type KeyStore = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>
 

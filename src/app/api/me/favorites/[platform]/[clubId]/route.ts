@@ -1,5 +1,5 @@
 import { db } from '@/db'
-import { clubRefSchema } from '@/features/account/schemas'
+import { clubRefSchema } from '@/features/account/server/schemas'
 import { getUserId } from '@/features/account/server/require-user'
 import { addFavorite, removeFavorite } from '@/features/account/server/repo'
 

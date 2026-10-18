@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { deleteErrorKind } from '@/features/account/delete-error'
+import { deleteErrorKind } from '@/features/account/model/delete-error'
 
 describe('deleteErrorKind', () => {
   it('asks for a fresh sign-in on SESSION_EXPIRED', () => {

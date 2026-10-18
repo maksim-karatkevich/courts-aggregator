@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { parseClubKey } from './types'
+import { parseClubKey } from '../model/club-key'
 
 export const clubRefSchema = z.object({
   platform: z.enum(['tenis4u', 'twojtennis']),

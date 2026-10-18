@@ -1,8 +1,8 @@
 import type { QueryClient } from '@tanstack/react-query'
+import { SAVE_ERROR_KEY } from './query-keys'
 
 // A failed favorite save, kept in the query cache so the banner (in ClubList) sees what a
 // StarButton reports: useState inside a shared hook would give each component its own copy.
-export const SAVE_ERROR_KEY = ['favorites-save-error'] as const
 export const SAVE_ERROR_MS = 3000
 
 // Each failure stores a new number, and its timer clears only that number, so an older

@@ -4,7 +4,7 @@ import { useCallback, useRef, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import type { SessionUser } from '@/lib/auth-client'
 import { useDismiss } from '@/hooks/use-dismiss'
-import { signOutAndClear } from '../hooks'
+import { signOutAndClear } from '../hooks/sign-out'
 import { DeleteAccountConfirm } from './DeleteAccountConfirm'
 import { UserAvatar } from './UserAvatar'
 

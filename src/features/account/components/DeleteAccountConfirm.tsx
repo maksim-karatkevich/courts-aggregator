@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { authClient } from '@/lib/auth-client'
-import { deleteErrorKind, type DeleteErrorKind } from '../delete-error'
-import { signOutAndClear } from '../hooks'
+import { deleteErrorKind, type DeleteErrorKind } from '../model/delete-error'
+import { signOutAndClear } from '../hooks/sign-out'
 import { ReauthPrompt } from './ReauthPrompt'
 
 export function DeleteAccountConfirm({ onCancel, onDeleted }: { onCancel: () => void; onDeleted: () => void }) {

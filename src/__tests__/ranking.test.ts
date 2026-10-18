@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest'
-import { rankClubs, orderCourts, lastCourtFor } from '@/features/account/ranking'
-import { EMPTY_PREFERENCES, clubKey, type Preferences } from '@/features/account/types'
+import { rankClubs, orderCourts, lastCourtFor } from '@/features/account/model/ranking'
+import { clubKey } from '@/features/account/model/club-key'
+import { EMPTY_PREFERENCES } from '@/features/account/model/preferences'
+import type { Preferences } from '@/features/account/model/types'
 import { Platform, type ClubResult } from '@/lib/types'
 
 function club(id: string, clubName: string, slotCount: number): ClubResult {
