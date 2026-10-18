@@ -1,5 +1,6 @@
 import type { ClubResult } from '@/lib/types'
-import { clubKey, type Preferences } from './types'
+import { clubKey } from './club-key'
+import type { Preferences } from './types'
 
 function keyOf(club: ClubResult): string {
   return clubKey({ platform: club.platform, clubId: club.id })

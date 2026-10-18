@@ -1,8 +1,9 @@
 import { db } from '@/db'
-import { mergeSchema } from '@/features/account/schemas'
+import { mergeSchema } from '@/features/account/server/schemas'
 import { getUserId } from '@/features/account/server/require-user'
 import { mergeFavorites } from '@/features/account/server/repo'
-import { parseClubKey, type ClubRef } from '@/features/account/types'
+import { parseClubKey } from '@/features/account/model/club-key'
+import type { ClubRef } from '@/features/account/model/types'
 
 export async function POST(request: Request) {
   const userId = await getUserId(request)

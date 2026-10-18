@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { toPreferences } from '@/features/account/types'
+import { toPreferences } from '@/features/account/model/preferences'
 
 describe('toPreferences', () => {
   it('keeps a well-formed response', () => {

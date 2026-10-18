@@ -2,8 +2,10 @@
 
 import { use } from "react";
 import { ClubResult } from "@/lib/types";
-import { useFavoritesSaveError, usePreferences, useRecordBookingClick } from "@/features/account/hooks";
-import { rankClubs } from "@/features/account/ranking";
+import { useFavoritesSaveError } from "@/features/account/hooks/use-favorites-save-error";
+import { usePreferences } from "@/features/account/hooks/use-preferences";
+import { useRecordBookingClick } from "@/features/account/hooks/use-record-booking-click";
+import { rankClubs } from "@/features/account/model/ranking";
 import { ClubCard } from "./ClubCard";
 
 export function ClubList({ clubsPromise }: { clubsPromise: Promise<ClubResult[]> }) {

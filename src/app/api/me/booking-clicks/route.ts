@@ -1,5 +1,5 @@
 import { db } from '@/db'
-import { bookingClickSchema } from '@/features/account/schemas'
+import { bookingClickSchema } from '@/features/account/server/schemas'
 import { getUserId } from '@/features/account/server/require-user'
 import { recordBookingClick } from '@/features/account/server/repo'
 

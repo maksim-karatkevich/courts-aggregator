@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { decideSync, shouldMirror, type SyncInput } from '@/features/account/sync-decision'
+import { decideSync, shouldMirror, type SyncInput } from '@/features/account/model/sync-decision'
 
 const base: SyncInput = { pending: false, userId: null, owner: null, inFlight: false, localCount: 0 }
 const decide = (over: Partial<SyncInput>) => decideSync({ ...base, ...over })

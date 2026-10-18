@@ -2,8 +2,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ClubResult, Platform } from "@/lib/types";
 import { StarButton } from "@/features/account/components/StarButton";
-import { lastCourtFor, orderCourts } from "@/features/account/ranking";
-import type { ClubRef, Preferences } from "@/features/account/types";
+import { lastCourtFor, orderCourts } from "@/features/account/model/ranking";
+import type { ClubRef, Preferences } from "@/features/account/model/types";
 import { groupByCourt, UNNAMED_COURT } from "../group-by-court";
 import { CourtRow } from "./CourtRow";
 

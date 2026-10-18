@@ -1,6 +1,7 @@
 import { and, desc, eq, sql } from 'drizzle-orm'
 import { bookingPreference, favorite, type Db } from '@/db/schema'
-import { clubKey, type ClubRef, type Preferences } from '../types'
+import { clubKey } from '../model/club-key'
+import type { ClubRef, Preferences } from '../model/types'
 
 export async function getPreferences(db: Db, userId: string): Promise<Preferences> {
   const favs = await db

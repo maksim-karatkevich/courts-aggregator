@@ -1,7 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { createTestDb, insertUser } from './helpers/test-db'
 import type { Db } from '@/db/schema'
-import { parseClubKey, type ClubRef } from '@/features/account/types'
+import { parseClubKey } from '@/features/account/model/club-key'
+import type { ClubRef } from '@/features/account/model/types'
 import {
   addFavorite,
   getPreferences,

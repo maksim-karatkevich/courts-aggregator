@@ -4,8 +4,10 @@ import { createElement, type ReactNode } from 'react'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Platform } from '@/lib/types'
-import { useFavorites, useFavoritesSaveError } from '@/features/account/hooks'
-import { flagSaveError, SAVE_ERROR_KEY, SAVE_ERROR_MS } from '@/features/account/save-error'
+import { useFavorites } from '@/features/account/hooks/use-favorites'
+import { useFavoritesSaveError } from '@/features/account/hooks/use-favorites-save-error'
+import { SAVE_ERROR_KEY } from '@/features/account/client/query-keys'
+import { flagSaveError, SAVE_ERROR_MS } from '@/features/account/client/save-error'
 
 vi.mock('@/lib/auth-client', () => ({
   authClient: { useSession: () => ({ data: { user: { id: 'u1' } }, isPending: false }) },

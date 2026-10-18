@@ -6,7 +6,7 @@ import {
   readLocalOwner,
   writeLocalOwner,
   type KeyStore,
-} from '@/features/account/local-favorites'
+} from '@/features/account/client/local-favorites'
 
 function fakeStore(initial: Record<string, string> = {}): KeyStore {
   const data = new Map(Object.entries(initial))

@@ -1,7 +1,8 @@
 'use client'
 
-import { useFavorites } from '../hooks'
-import { clubKey, type ClubRef } from '../types'
+import { useFavorites } from '../hooks/use-favorites'
+import { clubKey } from '../model/club-key'
+import type { ClubRef } from '../model/types'
 
 export function StarButton({ club }: { club: ClubRef }) {
   const { isFavorite, toggle, ready } = useFavorites()
