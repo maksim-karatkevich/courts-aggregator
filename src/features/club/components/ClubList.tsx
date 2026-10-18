@@ -2,14 +2,14 @@
 
 import { use } from "react";
 import { ClubResult } from "@/lib/types";
-import { useFavorites, usePreferences, useRecordBookingClick } from "@/features/account/hooks";
+import { useFavoritesSaveError, usePreferences, useRecordBookingClick } from "@/features/account/hooks";
 import { rankClubs } from "@/features/account/ranking";
 import { ClubCard } from "./ClubCard";
 
 export function ClubList({ clubsPromise }: { clubsPromise: Promise<ClubResult[]> }) {
   const clubs = use(clubsPromise);
   const { prefs, failed } = usePreferences();
-  const { error: saveError } = useFavorites();
+  const saveError = useFavoritesSaveError();
   const recordBookingClick = useRecordBookingClick();
 
   if (!clubs.length) return <p className="text-sm text-muted-foreground">Brak dostępnych kortów w wybranym terminie.</p>;

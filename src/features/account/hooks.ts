@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query'
 import { authClient } from '@/lib/auth-client'
 import {
@@ -10,12 +10,12 @@ import {
   writeLocalFavorites,
   writeLocalOwner,
 } from './local-favorites'
+import { flagSaveError, SAVE_ERROR_KEY } from './save-error'
 import { shouldMirror } from './sync-decision'
 import { clubKey, toPreferences, type ClubRef, type Preferences } from './types'
 
 const LOCAL_KEY = ['local-favorites'] as const
 const PREFS_KEY = ['preferences'] as const
-const ERROR_MS = 3000
 
 function favoritePath(ref: ClubRef): string {
   return `/api/me/favorites/${encodeURIComponent(ref.platform)}/${encodeURIComponent(ref.clubId)}`
@@ -76,29 +76,24 @@ export function usePreferences(): {
   return { prefs: { favorites: local, booked: [] }, signedIn: true, failed: query.isError, ready }
 }
 
+// True for a few seconds after any component's favorite save failed.
+export function useFavoritesSaveError(): boolean {
+  const { data } = useQuery<number | null>({
+    queryKey: SAVE_ERROR_KEY,
+    queryFn: () => null,
+    initialData: null,
+    staleTime: Infinity,
+  })
+  return data !== null
+}
+
 export function useFavorites(): {
   isFavorite: (key: string) => boolean
   toggle: (ref: ClubRef) => void
-  error: boolean
   ready: boolean
 } {
   const queryClient = useQueryClient()
   const { prefs, signedIn, ready } = usePreferences()
-  const [error, setError] = useState(false)
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  useEffect(
-    () => () => {
-      if (timer.current) clearTimeout(timer.current)
-    },
-    []
-  )
-
-  const flagError = useCallback(() => {
-    setError(true)
-    if (timer.current) clearTimeout(timer.current)
-    timer.current = setTimeout(() => setError(false), ERROR_MS)
-  }, [])
 
   const isFavorite = useCallback((key: string) => prefs.favorites.includes(key), [prefs.favorites])
 
@@ -136,17 +131,17 @@ export function useFavorites(): {
           if (!res.ok) throw new Error(`favorite ${res.status}`)
         } catch {
           apply(wasFavorite) // roll back only this club, leaving other toggles alone
-          flagError()
+          flagSaveError(queryClient)
           return
         }
         // Server is the truth: refetch; usePreferences mirrors the result into localStorage.
         void queryClient.invalidateQueries({ queryKey: PREFS_KEY })
       })()
     },
-    [queryClient, signedIn, ready, flagError]
+    [queryClient, signedIn, ready]
   )
 
-  return { isFavorite, toggle, error, ready }
+  return { isFavorite, toggle, ready }
 }
 
 export function useRecordBookingClick(): (ref: ClubRef, court: string | null) => void {
