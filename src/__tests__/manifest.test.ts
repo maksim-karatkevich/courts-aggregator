@@ -13,5 +13,7 @@ describe('manifest', () => {
     const sizes = (m.icons ?? []).map((i) => i.sizes)
     expect(sizes).toContain('512x512')
     expect(sizes).toContain('192x192')
+    expect(m.icons).toContainEqual({ src: '/icon-512', sizes: '512x512', type: 'image/png' })
+    expect(m.icons).toContainEqual({ src: '/icon-192', sizes: '192x192', type: 'image/png' })
   })
 })
