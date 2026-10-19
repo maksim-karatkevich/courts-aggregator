@@ -38,7 +38,7 @@ export function CalendarGrid({
         className="grid"
         style={{ gridTemplateColumns: `56px repeat(${columns.length}, minmax(96px, 1fr))` }}
       >
-        <div data-grid-header className="sticky top-0 z-10 border-b bg-background" />
+        <div data-grid-header className="sticky left-0 top-0 z-20 border-b bg-background" />
         {columns.map(col => (
           <div key={col.name} className="sticky top-0 z-10 border-b bg-background px-2 py-1.5 text-center">
             <div className="text-xs font-semibold">{col.name}</div>
