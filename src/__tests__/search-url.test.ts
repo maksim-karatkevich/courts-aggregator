@@ -22,6 +22,10 @@ describe('parseSearchParams', () => {
     expect(parseSearchParams(sp('date=2026-10-20&from=18:00&to=18:00'))).toBeNull()
   })
 
+  it.each(['2026-02-30', '2026-13-45', 'nope'])('returns null for impossible date %s', d => {
+    expect(parseSearchParams(sp(`date=${d}&from=10:00&to=12:00`))).toBeNull()
+  })
+
   it('defaults forMinutes to 60 when missing or not allowed', () => {
     expect(parseSearchParams(sp('date=2026-10-20&from=18:00&to=21:00'))?.forMinutes).toBe(60)
     expect(parseSearchParams(sp('date=2026-10-20&from=18:00&to=21:00&forMinutes=45'))?.forMinutes).toBe(60)
@@ -45,6 +49,15 @@ describe('parseClubSearch', () => {
       date: '2026-10-25', window: { from: '18:00', to: '21:00' }, forMinutes: 120,
     })
     expect(parseClubSearch(sp('date=nope'), today).date).toBe(today)
+  })
+
+  it.each(['2026-02-30', '2026-13-45', 'nope'])('falls back to today for impossible date %s', d => {
+    expect(parseClubSearch(sp(`date=${d}`), today).date).toBe(today)
+  })
+
+  it('falls back to 60 minutes on a bad forMinutes', () => {
+    expect(parseClubSearch(sp('forMinutes=45'), today).forMinutes).toBe(60)
+    expect(parseClubSearch(sp('forMinutes=abc'), today).forMinutes).toBe(60)
   })
 })
 

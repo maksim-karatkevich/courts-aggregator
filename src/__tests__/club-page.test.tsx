@@ -174,6 +174,15 @@ describe('ClubPageContent', () => {
     expect(panelProps.mock.calls[0][0].window).toBeNull()
   })
 
+  it('renders with an impossible date without throwing', async () => {
+    search = 'platform=tenis4u&date=2026-02-30'
+    ok([club])
+    renderPage()
+    expect(await screen.findByText('Klub Testowy')).toBeTruthy()
+    expect(panelProps.mock.calls[0][0].date).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+    expect(panelProps.mock.calls[0][0].date).not.toBe('2026-02-30')
+  })
+
   it('shows the skeleton while loading', () => {
     search = 'platform=tenis4u&date=2026-10-20'
     fetchMock.mockReturnValue(new Promise(() => {}))

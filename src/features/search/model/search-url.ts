@@ -1,7 +1,14 @@
+import { isValid, parseISO } from 'date-fns'
 import { DURATIONS, type SearchParams, type SearchWindow } from '@/lib/types'
 
 // Same patterns as /api/search, so a URL that parses here is accepted there.
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/
+
+// Shape plus calendar validity: "2026-02-30" matches DATE_RE but is not a real day.
+function isRealDate(date: string | null): date is string {
+  return !!date && DATE_RE.test(date) && isValid(parseISO(date))
+}
+
 const TIME_RE = /^\d{2}:\d{2}$/
 
 const DEFAULT_FROM = '07:00'
@@ -37,7 +44,7 @@ export function toQueryString(p: SearchParams): string {
 export function parseSearchParams(sp: URLSearchParams): SearchParams | null {
   const date = sp.get('date')
   const window = parseWindow(sp.get('from'), sp.get('to'))
-  if (!date || !DATE_RE.test(date) || !window) return null
+  if (!isRealDate(date) || !window) return null
   return { date, ...window, forMinutes: parseMinutes(sp.get('forMinutes')) }
 }
 
@@ -45,7 +52,7 @@ export function parseSearchParams(sp: URLSearchParams): SearchParams | null {
 export function parseClubSearch(sp: URLSearchParams, today: string): ClubSearch {
   const date = sp.get('date')
   return {
-    date: date && DATE_RE.test(date) ? date : today,
+    date: isRealDate(date) ? date : today,
     window: parseWindow(sp.get('from'), sp.get('to')),
     forMinutes: parseMinutes(sp.get('forMinutes')),
   }
