@@ -54,12 +54,12 @@ export function CalendarGrid({
           return (
             <div
               key={hour}
-              data-hour={hour}
-              data-in-window={inWindow ? 'true' : undefined}
               className="contents"
             >
               <div
-                className={`px-2 py-1 text-right text-xs ${inWindow ? 'bg-blue-50 text-blue-600' : 'text-muted-foreground'} ${edge}`}
+                data-hour={hour}
+                data-in-window={inWindow ? 'true' : undefined}
+                className={`sticky left-0 z-[5] px-2 py-1 text-right text-xs ${inWindow ? 'bg-blue-50 text-blue-600' : 'bg-background text-muted-foreground'} ${edge}`}
               >
                 {pad(hour)}
               </div>

@@ -6,7 +6,8 @@ import { StarButton } from '@/features/account/components/StarButton'
 import { usePreferences } from '@/features/account/hooks/use-preferences'
 import { useRecordBookingClick } from '@/features/account/hooks/use-record-booking-click'
 import { lastCourtFor } from '@/features/account/model/ranking'
-import { buildCourtColumns } from '../model/day-grid'
+import { format, parseISO } from 'date-fns'
+import { buildCourtColumns, initialScrollHour } from '../model/day-grid'
 import { CalendarGrid } from './CalendarGrid'
 import { CalendarLegend } from './CalendarLegend'
 
@@ -33,7 +34,7 @@ export function CalendarPanel({
         <div className="min-w-0 flex-1">
           <h2 className="text-xl font-bold leading-tight">{club.clubName}</h2>
           <p className="text-xs text-muted-foreground">
-            {`${club.platform} · ${date} · Kliknij zielone pole, aby zarezerwować`}
+            {`${club.platform} · ${format(parseISO(date), 'dd.MM.yyyy')} · Kliknij zielone pole, aby zarezerwować`}
           </p>
         </div>
         <StarButton club={ref} />
@@ -53,7 +54,7 @@ export function CalendarPanel({
         window={window}
         bookingUrl={club.bookingUrl}
         onBook={court => recordBookingClick(ref, court)}
-        resetKey={`${club.platform}:${club.id}:${date}`}
+        resetKey={`${club.platform}:${club.id}:${date}:${initialScrollHour(window)}`}
       />
     </section>
   )
