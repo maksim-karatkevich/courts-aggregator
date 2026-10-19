@@ -117,7 +117,7 @@ describe('CalendarPanel', () => {
     const name = screen.getByText('Hera')
     const lead = screen.getByText('LEAD')
     expect(lead.compareDocumentPosition(name) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
-    expect(screen.getByText(/2026-10-21/)).toBeTruthy()
+    expect(screen.getByText(/21.10.2026/)).toBeTruthy()
     expect(screen.getByText(/Kliknij zielone pole, aby zarezerwować/)).toBeTruthy()
   })
 
