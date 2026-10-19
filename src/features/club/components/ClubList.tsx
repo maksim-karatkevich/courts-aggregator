@@ -19,8 +19,6 @@ export function ClubList({
   const { prefs, failed } = usePreferences();
   const saveError = useFavoritesSaveError();
 
-  if (!clubs.length) return <p className="text-sm text-muted-foreground">Brak dostępnych kortów w wybranym terminie.</p>;
-
   const { favorites, rest } = rankClubs(clubs, prefs);
   const favoriteKeys = new Set(favorites.map((c) => clubKey({ platform: c.platform, clubId: c.id })));
   const renderCard = (club: ClubResult) => {
