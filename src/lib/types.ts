@@ -12,6 +12,13 @@ export interface SearchParams {
   forMinutes: number
 }
 
+export interface SearchWindow {
+  from: string       // HH:MM
+  to: string         // HH:MM
+}
+
+export const DURATIONS = [60, 90, 120] as const
+
 export interface TimeSlot {
   from: string       // HH:MM
   to: string         // HH:MM
@@ -26,6 +33,7 @@ export interface ClubResult {
   clubName: string
   platform: Platform
   slots: TimeSlot[]
+  daySlots: TimeSlot[]  // the club's full day for the searched date, unclipped
   bookingUrl: string
 }
 

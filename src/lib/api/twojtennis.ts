@@ -1,7 +1,7 @@
 import { cacheLife } from 'next/cache'
 import { Platform } from '../types'
 import type { ClubResult, SearchParams } from '../types'
-import { filterTwojTennisSlots, type LocationInfo, type RawFreeSlot } from './slot-filter'
+import { filterTwojTennisDaySlots, filterTwojTennisSlots, type LocationInfo, type RawFreeSlot } from './slot-filter'
 
 const TWOJTENNIS_BASE = 'https://app-twojtenis-api-p-weu.azurewebsites.net'
 const TECH_GROUP_URL = 'https://app-twojtenis-tech-krakow-api-p-weu.azurewebsites.net'
@@ -130,6 +130,7 @@ export async function searchTwojTennis(params: SearchParams): Promise<ClubResult
       clubName: club.name ?? 'Nieznany klub',
       platform: Platform.TwojTennis,
       slots,
+      daySlots: filterTwojTennisDaySlots(club.spans ?? {}, locationMap),
       bookingUrl: `https://app.twojtenis.pl/#/clubs/${club.id}?tab=bookings`,
     })
   }
