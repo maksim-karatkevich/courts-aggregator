@@ -100,12 +100,14 @@ describe('ClubPageContent', () => {
     ok([{ ...club, id: 'other' }])
     renderPage()
     expect(await screen.findByText('Nie znaleziono wolnych terminów dla tego klubu')).toBeTruthy()
+    expect(screen.getByText('← Wyniki').closest('a')?.getAttribute('href')).toBe('/')
   })
 
   it.each(['', 'platform=bogus&date=2026-10-20'])('rejects bad platform (%s) without fetching', async q => {
     search = q
     renderPage()
     expect(await screen.findByText('Nieprawidłowy link')).toBeTruthy()
+    expect(screen.getByText('← Wyniki').closest('a')?.getAttribute('href')).toBe('/')
     expect(fetchMock).not.toHaveBeenCalled()
   })
 
@@ -114,6 +116,7 @@ describe('ClubPageContent', () => {
     fetchMock.mockResolvedValue({ ok: false, status: 500 })
     renderPage()
     expect(await screen.findByText('Nie udało się wczytać terminów. Spróbuj ponownie.')).toBeTruthy()
+    expect(screen.getByText('← Wyniki').closest('a')?.getAttribute('href')).toBe('/')
   })
 
   it('back link keeps the window when present', async () => {

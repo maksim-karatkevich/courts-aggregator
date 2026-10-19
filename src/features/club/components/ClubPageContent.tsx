@@ -12,8 +12,21 @@ import { decodeClubId } from '../club-href'
 
 const PLATFORMS: readonly string[] = Object.values(Platform)
 
-function Message({ children }: { children: string }) {
-  return <p className="py-8 text-center text-sm text-muted-foreground">{children}</p>
+function BackLink({ href }: { href: string }) {
+  return (
+    <Link href={href} className="shrink-0 text-sm text-muted-foreground hover:text-foreground">
+      ← Wyniki
+    </Link>
+  )
+}
+
+function Message({ children, backHref }: { children: string; backHref: string }) {
+  return (
+    <main className="mx-auto w-full max-w-2xl p-3">
+      <BackLink href={backHref} />
+      <p className="py-8 text-center text-sm text-muted-foreground">{children}</p>
+    </main>
+  )
 }
 
 export function ClubPageContent() {
@@ -26,25 +39,22 @@ export function ClubPageContent() {
   const params = toSearchParams(search)
   const query = useSearchResults(platform ? params : null)
 
-  if (!platform) return <Message>Nieprawidłowy link</Message>
+  const backHref = search.window ? `/?${toQueryString(params)}` : '/'
+
+  if (!platform) return <Message backHref="/">Nieprawidłowy link</Message>
   if (query.isLoading) return <ClubListSkeleton />
-  if (query.isError) return <Message>Nie udało się wczytać terminów. Spróbuj ponownie.</Message>
+  if (query.isError) return <Message backHref={backHref}>Nie udało się wczytać terminów. Spróbuj ponownie.</Message>
 
   const club = query.data?.find(c => c.platform === platform && c.id === decodeClubId(id))
-  if (!club) return <Message>Nie znaleziono wolnych terminów dla tego klubu</Message>
+  if (!club) return <Message backHref={backHref}>Nie znaleziono wolnych terminów dla tego klubu</Message>
 
-  const backHref = search.window ? `/?${toQueryString(params)}` : '/'
   return (
     <main className="mx-auto w-full max-w-2xl p-3">
       <CalendarPanel
         club={club}
         date={search.date}
         window={search.window}
-        leading={
-          <Link href={backHref} className="shrink-0 text-sm text-muted-foreground hover:text-foreground">
-            ← Wyniki
-          </Link>
-        }
+        leading={<BackLink href={backHref} />}
       />
     </main>
   )
