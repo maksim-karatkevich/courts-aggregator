@@ -46,4 +46,20 @@ describe('SearchForm', () => {
     fireEvent.click(buttons[2])
     expect(buttons.map((b) => b.getAttribute('aria-pressed'))).toEqual(['false', 'false', 'true'])
   })
+
+  it('keeps a late window valid when the duration grows', () => {
+    const onSearch = vi.fn()
+    render(<SearchForm onSearch={onSearch} initial={{ date: '2026-11-02', from: '22:00', to: '23:00', forMinutes: 60 }} />)
+    fireEvent.click(screen.getByRole('button', { name: '120 min' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Szukaj' }))
+    expect(onSearch).toHaveBeenCalledWith({ date: '2026-11-02', from: '21:00', to: '23:00', forMinutes: 120 })
+  })
+
+  it('keeps a half-hour initial value selectable while hourly', () => {
+    const onSearch = vi.fn()
+    render(<SearchForm onSearch={onSearch} initial={{ date: '2026-11-02', from: '13:30', to: '16:00', forMinutes: 60 }} />)
+    expect(screen.getByRole('button', { name: 'Co 30 min' }).getAttribute('aria-pressed')).toBe('false')
+    fireEvent.click(screen.getByRole('button', { name: 'Szukaj' }))
+    expect(onSearch).toHaveBeenCalledWith(expect.objectContaining({ from: '13:30', to: '16:00' }))
+  })
 })

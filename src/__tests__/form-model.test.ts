@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { clampTo, minTo, quickPickDate, timeOptions } from '@/features/search/model/form-model'
+import { clampTo, fitWindow, minTo, quickPickDate, timeOptions } from '@/features/search/model/form-model'
 import { format } from 'date-fns'
 
 const ymd = (d: Date) => format(d, 'yyyy-MM-dd')
@@ -36,4 +36,16 @@ describe('minTo / clampTo', () => {
   it('minTo adds duration', () => expect(minTo('14:00', 90)).toBe('15:30'))
   it('clampTo raises an early to', () => expect(clampTo('14:30', '14:00', 120)).toBe('16:00'))
   it('clampTo keeps a late enough to', () => expect(clampTo('18:00', '14:00', 60)).toBe('18:00'))
+})
+
+describe('fitWindow', () => {
+  it('pulls from back so the game ends by 23:00', () => {
+    expect(fitWindow('22:00', '23:00', 120, 60)).toEqual({ from: '21:00', to: '23:00' })
+    expect(fitWindow('22:00', '23:00', 90, 60)).toEqual({ from: '21:00', to: '23:00' })
+    expect(fitWindow('21:30', '23:00', 120, 30)).toEqual({ from: '21:00', to: '23:00' })
+    expect(fitWindow('22:00', '23:00', 90, 30)).toEqual({ from: '21:30', to: '23:00' })
+  })
+  it('leaves a fitting window alone and still clamps to', () => {
+    expect(fitWindow('14:00', '15:00', 90, 60)).toEqual({ from: '14:00', to: '15:30' })
+  })
 })

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { format, parseISO } from 'date-fns'
 import type { SearchParams } from '@/lib/types'
 import { Button } from '@/components/ui/button'
-import { clampTo, minTo, timeOptions } from '../model/form-model'
+import { clampTo, fitWindow, minTo, timeOptions } from '../model/form-model'
 import { DateField } from './DateField'
 import { DateQuickPicks } from './DateQuickPicks'
 import { DurationPicker } from './DurationPicker'
@@ -45,7 +45,9 @@ export function SearchForm({ onSearch, loading, initial }: Props) {
 
   function handleDuration(m: number) {
     setForMinutes(m)
-    setTo(clampTo(to, from, m))
+    const next = fitWindow(from, to, m, step)
+    setFrom(next.from)
+    setTo(next.to)
   }
 
   function handleSubmit() {

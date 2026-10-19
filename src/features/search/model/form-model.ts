@@ -39,3 +39,19 @@ export function clampTo(to: string, from: string, forMinutes: number): string {
   const min = minTo(from, forMinutes)
   return to < min ? min : to
 }
+
+/** Fit a window after the duration grows: pull `from` back so the game ends by 23:00 (snapped down to the step grid), then clamp `to`. */
+export function fitWindow(
+  from: string,
+  to: string,
+  forMinutes: number,
+  step: 30 | 60,
+): { from: string; to: string } {
+  const latest = DAY_END - forMinutes
+  let nextFrom = from
+  if (toMinutes(from) > latest) {
+    const snapped = DAY_START + Math.floor((latest - DAY_START) / step) * step
+    nextFrom = fromMinutes(snapped)
+  }
+  return { from: nextFrom, to: clampTo(to, nextFrom, forMinutes) }
+}
