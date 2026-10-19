@@ -6,8 +6,9 @@ import type { ReactNode } from 'react'
 import { Platform, type ClubResult } from '@/lib/types'
 
 let search = ''
+let routeId = 'c1'
 vi.mock('next/navigation', () => ({
-  useParams: () => ({ id: 'c1' }),
+  useParams: () => ({ id: routeId }),
   useSearchParams: () => new URLSearchParams(search),
 }))
 
@@ -22,6 +23,10 @@ vi.mock('@/features/calendar/components/CalendarPanel', () => ({
       </div>
     )
   },
+}))
+
+vi.mock('@/features/club/components/ClubListSkeleton', () => ({
+  ClubListSkeleton: () => <div data-testid="skeleton" />,
 }))
 
 import { ClubPageContent } from '@/features/club/components/ClubPageContent'
@@ -54,6 +59,7 @@ beforeEach(() => {
   fetchMock = vi.fn()
   vi.stubGlobal('fetch', fetchMock)
   panelProps.mockClear()
+  routeId = 'c1'
 })
 
 afterEach(() => {
@@ -126,5 +132,52 @@ describe('ClubPageContent', () => {
     renderPage()
     const link = await screen.findByText('← Wyniki')
     await waitFor(() => expect(link.closest('a')?.getAttribute('href')).toBe('/'))
+  })
+
+  it('decodes a percent-encoded route id before matching', async () => {
+    routeId = 'Klub%20Test'
+    search = 'platform=tenis4u&date=2026-10-20'
+    ok([{ ...club, id: 'Klub Test' }])
+    renderPage()
+    expect(await screen.findByText('Klub Testowy')).toBeTruthy()
+  })
+
+  it('does not throw on a malformed encoded id', async () => {
+    routeId = '%E0%A4%A'
+    search = 'platform=tenis4u&date=2026-10-20'
+    ok([club])
+    renderPage()
+    expect(await screen.findByText('Nie znaleziono wolnych terminów dla tego klubu')).toBeTruthy()
+  })
+
+  it('passes a plain id through unchanged', async () => {
+    routeId = 'abc-123'
+    search = 'platform=tenis4u&date=2026-10-20'
+    ok([{ ...club, id: 'abc-123' }])
+    renderPage()
+    expect(await screen.findByText('Klub Testowy')).toBeTruthy()
+  })
+
+  it('matches on platform as well as id', async () => {
+    search = 'platform=twojtennis&date=2026-10-20'
+    ok([club, { ...club, platform: Platform.TwojTennis, clubName: 'Drugi' }])
+    renderPage()
+    expect(await screen.findByText('Drugi')).toBeTruthy()
+    expect(panelProps.mock.calls[0][0].club.platform).toBe('twojtennis')
+  })
+
+  it('treats an inverted window as no window', async () => {
+    search = 'platform=tenis4u&date=2026-10-20&from=21:00&to=18:00'
+    ok([club])
+    renderPage()
+    await screen.findByText('Klub Testowy')
+    expect(panelProps.mock.calls[0][0].window).toBeNull()
+  })
+
+  it('shows the skeleton while loading', () => {
+    search = 'platform=tenis4u&date=2026-10-20'
+    fetchMock.mockReturnValue(new Promise(() => {}))
+    renderPage()
+    expect(screen.getByTestId('skeleton')).toBeTruthy()
   })
 })

@@ -8,6 +8,7 @@ import { CalendarPanel } from '@/features/calendar/components/CalendarPanel'
 import { useSearchResults } from '@/features/search/hooks/use-search-results'
 import { parseClubSearch, toQueryString, toSearchParams } from '@/features/search/model/search-url'
 import { ClubListSkeleton } from './ClubListSkeleton'
+import { decodeClubId } from '../club-href'
 
 const PLATFORMS: readonly string[] = Object.values(Platform)
 
@@ -29,7 +30,7 @@ export function ClubPageContent() {
   if (query.isLoading) return <ClubListSkeleton />
   if (query.isError) return <Message>Nie udało się wczytać terminów. Spróbuj ponownie.</Message>
 
-  const club = query.data?.find(c => c.platform === platform && c.id === id)
+  const club = query.data?.find(c => c.platform === platform && c.id === decodeClubId(id))
   if (!club) return <Message>Nie znaleziono wolnych terminów dla tego klubu</Message>
 
   const backHref = search.window ? `/?${toQueryString(params)}` : '/'
