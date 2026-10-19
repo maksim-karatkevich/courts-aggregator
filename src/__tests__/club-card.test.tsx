@@ -35,7 +35,7 @@ describe('ClubCard', () => {
     setup()
     expect(screen.getByText('Klub Testowy')).toBeTruthy()
     expect(screen.getByText('2 korty · Hala, Mączka')).toBeTruthy()
-    expect(screen.getByText('3 wolnych · 13:00–16:00')).toBeTruthy()
+    expect(screen.getByText('3 wolne terminy · 13:00–16:00')).toBeTruthy()
   })
 
   it('opens on main button click, not on star click', () => {

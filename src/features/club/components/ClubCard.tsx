@@ -1,6 +1,6 @@
 import { ClubResult, Platform } from "@/lib/types";
 import { StarButton } from "@/features/account/components/StarButton";
-import { formatCourtCount, summarizeClub } from "../summarize-club";
+import { formatCourtCount, formatSlotCount, summarizeClub } from "../summarize-club";
 
 export function ClubCard({
   club,
@@ -32,7 +32,7 @@ export function ClubCard({
           <span className="block text-sm font-semibold">{club.clubName}</span>
           <span className="block text-xs text-muted-foreground">{courts}</span>
           <span className="block text-xs text-muted-foreground">
-            {summary.slotCount} wolnych · {summary.earliest}–{summary.latest}
+            {formatSlotCount(summary.slotCount)} · {summary.earliest}–{summary.latest}
           </span>
         </span>
         <span aria-hidden className={selected ? "text-blue-500" : "text-muted-foreground"}>›</span>

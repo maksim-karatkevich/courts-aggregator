@@ -35,3 +35,11 @@ export function formatCourtCount(n: number): string {
   if (last >= 2 && last <= 4 && !(lastTwo >= 12 && lastTwo <= 14)) return `${n} korty`;
   return `${n} kortów`;
 }
+
+export function formatSlotCount(n: number): string {
+  if (n === 1) return "1 wolny termin";
+  const last = n % 10;
+  const lastTwo = n % 100;
+  if (last >= 2 && last <= 4 && !(lastTwo >= 12 && lastTwo <= 14)) return `${n} wolne terminy`;
+  return `${n} wolnych terminów`;
+}
