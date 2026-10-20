@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Tennis court finder</title>
+  <desc id="desc">A lime-yellow tennis ball inside a dark navy magnifying glass, with matching curved tennis seams.</desc>
+  <!-- Handle, behind the lens -->
+  <path d="M350 342 L424 416" fill="none" stroke="#14263D" stroke-width="54" stroke-linecap="round"/>
+  <!-- Ball -->
+  <circle cx="226" cy="218" r="128" fill="#D7F21B"/>
+  <!-- Symmetrical tennis-ball seams -->
+  <path d="M168 105 C218 145 218 291 168 331" fill="none" stroke="#FFFFFF" stroke-width="13" stroke-linecap="round"/>
+  <path d="M284 105 C234 145 234 291 284 331" fill="none" stroke="#FFFFFF" stroke-width="13" stroke-linecap="round"/>
+  <!-- Magnifier rim -->
+  <circle cx="226" cy="218" r="145" fill="none" stroke="#14263D" stroke-width="24"/>
+</svg>

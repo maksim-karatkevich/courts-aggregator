@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { extractSlots, filterTwojTennisSlots } from '../lib/api/slot-filter'
+import { extractSlots, filterTwojTennisSlots, extractDaySlots, filterTwojTennisDaySlots } from '../lib/api/slot-filter'
 import type { RawOccupancy, RawFreeSlot, LocationInfo } from '../lib/api/slot-filter'
 
 const baseParams = {
@@ -94,5 +94,59 @@ describe('filterTwojTennisSlots', () => {
     const slots = filterTwojTennisSlots(spans, {}, baseParams)
     expect(slots[0].courtName).toBeUndefined()
     expect(slots[0].surfaceType).toBeUndefined()
+  })
+})
+
+describe('extractDaySlots', () => {
+  it('returns every free span of the date, unclipped, with no duration filter', () => {
+    const occupancy: RawOccupancy = {
+      stations: [{
+        name: 'Kort 1',
+        type: 'Mączka',
+        days: [
+          {
+            date: '2026/07/30',
+            free_hours: [
+              { begin_time: '06:30:00', end_time: '07:00:00' },
+              { begin_time: '18:00:00', end_time: '22:00:00' },
+            ],
+          },
+          { date: '2026/07/31', free_hours: [{ begin_time: '09:00:00', end_time: '10:00:00' }] },
+        ],
+      }],
+    }
+    expect(extractDaySlots(occupancy, { date: '2026-07-30' })).toEqual([
+      { from: '06:30', to: '07:00', courtName: 'Kort 1', surfaceType: 'Mączka' },
+      { from: '18:00', to: '22:00', courtName: 'Kort 1', surfaceType: 'Mączka' },
+    ])
+  })
+
+  it('skips spans with a missing begin or end time', () => {
+    const occupancy: RawOccupancy = {
+      stations: [{
+        name: 'Kort 1',
+        days: [{
+          date: '2026/07/30',
+          free_hours: [{ begin_time: '10:00:00' }, { end_time: '11:00:00' }, { begin_time: '12:00:00', end_time: '13:00:00' }],
+        }],
+      }],
+    }
+    expect(extractDaySlots(occupancy, { date: '2026-07-30' })).toEqual([
+      { from: '12:00', to: '13:00', courtName: 'Kort 1', surfaceType: undefined },
+    ])
+  })
+})
+
+describe('filterTwojTennisDaySlots', () => {
+  it('maps location ids to court name, surface and court type', () => {
+    const spans: Record<string, RawFreeSlot[]> = {
+      loc1: [{ from: '08:00:00', to: '08:30:00' }],
+    }
+    const locationMap: Record<string, LocationInfo> = {
+      loc1: { name: 'Kort A', surfaceType: 'Twarda', courtType: 'Kryty' },
+    }
+    expect(filterTwojTennisDaySlots(spans, locationMap)).toEqual([
+      { from: '08:00', to: '08:30', courtName: 'Kort A', surfaceType: 'Twarda', courtType: 'Kryty' },
+    ])
   })
 })

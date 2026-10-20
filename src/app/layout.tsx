@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { Providers } from "@/components/providers";
 import "./globals.css";
@@ -8,6 +8,10 @@ const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Korty Kraków",
   description: "Dostępność kortów tenisowych w jednym miejscu",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#15803d",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

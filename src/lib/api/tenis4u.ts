@@ -1,7 +1,7 @@
 import { cacheLife } from 'next/cache'
 import { Platform } from '../types'
 import type { ClubResult, SearchParams } from '../types'
-import { extractSlots, type RawOccupancy } from './slot-filter'
+import { extractDaySlots, extractSlots, type RawOccupancy } from './slot-filter'
 
 const BASE = 'https://api.tenis4u.pl'
 const FETCH_HEADERS = {
@@ -40,7 +40,8 @@ async function fetchOccupancy(id: number): Promise<RawOccupancy> {
 export async function searchTenis4u(params: SearchParams): Promise<ClubResult[]> {
   const results = await Promise.allSettled(
     COURT_IDS.map(async ({ id, clubName }): Promise<ClubResult | null> => {
-      const slots = extractSlots(await fetchOccupancy(id), params)
+      const occupancy = await fetchOccupancy(id)
+      const slots = extractSlots(occupancy, params)
       if (slots.length === 0) return null
 
       return {
@@ -48,6 +49,7 @@ export async function searchTenis4u(params: SearchParams): Promise<ClubResult[]>
         clubName,
         platform: Platform.Tenis4u,
         slots,
+        daySlots: extractDaySlots(occupancy, params),
         bookingUrl: `https://app.tenis4u.pl/court/${id}`,
       }
     }),

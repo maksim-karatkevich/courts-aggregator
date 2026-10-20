@@ -10,6 +10,7 @@ function club(id: string, clubName: string, slotCount: number): ClubResult {
     id,
     clubName,
     platform: Platform.Tenis4u,
+    daySlots: [],
     slots: Array.from({ length: slotCount }, (_, i) => ({ from: `${13 + i}:00`, to: `${14 + i}:00` })),
     bookingUrl: `https://example.com/${id}`,
   }

@@ -1,116 +1,73 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { format } from 'date-fns'
-import { CalendarIcon } from 'lucide-react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { format, parseISO } from 'date-fns'
 import type { SearchParams } from '@/lib/types'
 import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-
-type FormParams = Omit<SearchParams, 'forMinutes'>
+import { clampTo, fitWindow, minTo, timeOptions } from '../model/form-model'
+import { DateField } from './DateField'
+import { DateQuickPicks } from './DateQuickPicks'
+import { DurationPicker } from './DurationPicker'
+import { TimeSelect } from './TimeSelect'
 
 interface Props {
-  onSearch: (params: FormParams) => void
+  onSearch: (params: SearchParams) => void
   loading?: boolean
+  initial?: SearchParams
 }
 
-function generateTimeSlots(startHour: number, endHour: number): string[] {
-  const slots: string[] = []
-  for (let t = startHour * 60; t <= endHour * 60; t += 30) {
-    const h = String(Math.floor(t / 60)).padStart(2, '0')
-    const m = String(t % 60).padStart(2, '0')
-    slots.push(`${h}:${m}`)
-  }
-  return slots
-}
+const LAST_END = '23:00'
+const STEP = 60;
 
-const TIME_SLOTS = generateTimeSlots(6, 23)
-
-export function SearchForm({ onSearch, loading }: Props) {
-  const [date, setDate] = useState<Date | undefined>(undefined)
+export function SearchForm({ onSearch, loading, initial }: Props) {
+  const [date, setDate] = useState<Date | undefined>(initial ? parseISO(initial.date) : undefined)
   const [today, setToday] = useState<Date | undefined>(undefined)
-  const [from, setFrom] = useState('07:00')
-  const [to, setTo] = useState('23:00')
-  const [open, setOpen] = useState(false)
+  const [from, setFrom] = useState(initial?.from ?? '07:00')
+  const [to, setTo] = useState(initial?.to ?? '23:00')
+  const [forMinutes, setForMinutes] = useState(initial?.forMinutes ?? 120)
 
+  // Set after mount to avoid a server/client date mismatch.
   useEffect(() => {
     const now = new Date()
     setToday(now)
-    setDate(now)
+    if (!initial) setDate(now)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const MIN_DURATION_SLOTS = 2 // 2 × 30 min = 1 hour
-  const fromIndex = TIME_SLOTS.indexOf(from)
-  const toSlots = TIME_SLOTS.slice(fromIndex + MIN_DURATION_SLOTS)
+  const fromOptions = useMemo(() => timeOptions(STEP, [from]).filter((t) => minTo(t, forMinutes) <= LAST_END), [from, forMinutes])
+  const toOptions = useMemo(() =>  timeOptions(STEP, [to]).filter((t) => t >= minTo(from, forMinutes)), [to, from, forMinutes])
 
-  function handleFromChange(v: string) {
+  const handleFrom = useCallback((v: string) => {
     setFrom(v)
-    const newFromIndex = TIME_SLOTS.indexOf(v)
-    const minTo = TIME_SLOTS[newFromIndex + MIN_DURATION_SLOTS]
-    if (minTo && to < minTo) setTo(minTo)
-  }
+    setTo(clampTo(to, v, forMinutes))
+  }, [to, forMinutes]);
 
-  function handleSubmit() {
+  const handleDuration = useCallback((m: number) => {
+    setForMinutes(m)
+    const next = fitWindow(from, to, m, STEP)
+    setFrom(next.from)
+    setTo(next.to)
+  }, [from, to])
+
+  const handleSubmit = useCallback(() => {
     if (!date) return
-    onSearch({ date: format(date, 'yyyy-MM-dd'), from, to })
-  }
+    onSearch({ date: format(date, 'yyyy-MM-dd'), from, to, forMinutes })
+  }, [date, from, to, forMinutes, onSearch])
 
   return (
-    <div className="flex flex-wrap items-end gap-3">
-      <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium">Data</label>
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger
-            disabled={loading}
-            className="flex h-8 w-40 items-center justify-start gap-2 rounded-lg border border-input bg-transparent px-2.5 text-sm font-normal transition-colors hover:bg-accent hover:text-accent-foreground disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <CalendarIcon className="size-4" />
-            {date ? format(date, 'dd.MM.yyyy') : 'Wybierz datę'}
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={(d) => { if (d) { setDate(d); setOpen(false) } }}
-              disabled={today ? { before: today } : undefined}
-            />
-          </PopoverContent>
-        </Popover>
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-wrap items-end gap-3">
+        <DateField date={date} today={today} onChange={setDate} disabled={loading} />
+        <DateQuickPicks date={date} now={today} onPick={setDate} disabled={loading} />
       </div>
-
-      <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium">Od</label>
-        <Select value={from} onValueChange={(v) => { if (v) handleFromChange(v) }} disabled={loading}>
-          <SelectTrigger className="w-28">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {TIME_SLOTS.slice(0, -1).map((t) => (
-              <SelectItem key={t} value={t}>{t}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+      <div className="flex flex-wrap items-end gap-3">
+        <DurationPicker value={forMinutes} onChange={handleDuration} disabled={loading} />
+        <TimeSelect label="Od" value={from} options={fromOptions} onChange={handleFrom} disabled={loading} />
+        <TimeSelect label="Do" value={to} options={toOptions} onChange={setTo} disabled={loading} />
+        <Button onClick={handleSubmit} disabled={loading}>
+          {loading ? 'Szukam…' : 'Szukaj'}
+        </Button>
       </div>
-
-      <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium">Do</label>
-        <Select value={to} onValueChange={(v) => { if (v) setTo(v) }} disabled={loading}>
-          <SelectTrigger className="w-28">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {toSlots.map((t) => (
-              <SelectItem key={t} value={t}>{t}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      <Button onClick={handleSubmit} disabled={loading}>
-        {loading ? 'Szukam…' : 'Szukaj'}
-      </Button>
     </div>
   )
 }

@@ -1,11 +1,10 @@
 import { searchTenis4u } from '@/lib/api/tenis4u'
 import { searchTwojTennis } from '@/lib/api/twojtennis'
-import type { SearchParams } from '@/lib/types'
+import { DURATIONS, type SearchParams } from '@/lib/types'
 import { NextResponse } from 'next/server'
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/
 const TIME_RE = /^\d{2}:\d{2}$/
-const DURATIONS = [60, 90, 120]
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -13,9 +12,9 @@ export async function GET(request: Request) {
   const date = searchParams.get('date') ?? ''
   const from = searchParams.get('from') ?? '07:00'
   const to = searchParams.get('to') ?? '23:00'
-  const forMinutes = Number(searchParams.get('forMinutes') ?? 60)
+  const forMinutes = Number(searchParams.get('forMinutes') ?? 120)
 
-  if (!DATE_RE.test(date) || !TIME_RE.test(from) || !TIME_RE.test(to) || !DURATIONS.includes(forMinutes)) {
+  if (!DATE_RE.test(date) || !TIME_RE.test(from) || !TIME_RE.test(to) || !(DURATIONS as readonly number[]).includes(forMinutes)) {
     return NextResponse.json({ error: 'Invalid search params' }, { status: 400 })
   }
 
