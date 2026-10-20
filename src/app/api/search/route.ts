@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   const date = searchParams.get('date') ?? ''
   const from = searchParams.get('from') ?? '07:00'
   const to = searchParams.get('to') ?? '23:00'
-  const forMinutes = Number(searchParams.get('forMinutes') ?? 60)
+  const forMinutes = Number(searchParams.get('forMinutes') ?? 120)
 
   if (!DATE_RE.test(date) || !TIME_RE.test(from) || !TIME_RE.test(to) || !(DURATIONS as readonly number[]).includes(forMinutes)) {
     return NextResponse.json({ error: 'Invalid search params' }, { status: 400 })

@@ -13,7 +13,7 @@ const TIME_RE = /^\d{2}:\d{2}$/
 
 const DEFAULT_FROM = '07:00'
 const DEFAULT_TO = '23:00'
-const DEFAULT_MINUTES = 60
+const DEFAULT_MINUTES = 120
 
 export interface ClubSearch {
   date: string

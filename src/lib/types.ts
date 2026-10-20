@@ -17,7 +17,7 @@ export interface SearchWindow {
   to: string         // HH:MM
 }
 
-export const DURATIONS = [60, 90, 120] as const
+export const DURATIONS = [120, 90, 60] as const
 
 export interface TimeSlot {
   from: string       // HH:MM

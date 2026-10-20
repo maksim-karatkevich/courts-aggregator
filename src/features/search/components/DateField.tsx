@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { Calendar } from '@/components/ui/calendar'
@@ -13,7 +13,7 @@ interface Props {
   disabled?: boolean
 }
 
-export function DateField({ date, today, onChange, disabled }: Props) {
+export const DateField = memo(function DateField({ date, today, onChange, disabled }: Props) {
   const [open, setOpen] = useState(false)
   return (
     <div className="flex flex-col gap-1.5">
@@ -37,4 +37,4 @@ export function DateField({ date, today, onChange, disabled }: Props) {
       </Popover>
     </div>
   )
-}
+})

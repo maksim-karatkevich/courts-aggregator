@@ -3,6 +3,7 @@
 import { format } from 'date-fns'
 import { Button } from '@/components/ui/button'
 import { quickPickDate, type QuickPick } from '../model/form-model'
+import { memo } from 'react'
 
 const PICKS: { kind: QuickPick; label: string }[] = [
   { kind: 'today', label: 'Dziś' },
@@ -17,7 +18,7 @@ interface Props {
   disabled?: boolean
 }
 
-export function DateQuickPicks({ date, now, onPick, disabled }: Props) {
+export const DateQuickPicks = memo(function DateQuickPicks({ date, now, onPick, disabled }: Props) {
   return (
     <div className="flex gap-1.5">
       {PICKS.map(({ kind, label }) => {
@@ -39,4 +40,4 @@ export function DateQuickPicks({ date, now, onPick, disabled }: Props) {
       })}
     </div>
   )
-}
+})

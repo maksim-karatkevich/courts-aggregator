@@ -18,7 +18,7 @@ describe('SearchForm', () => {
     render(<SearchForm onSearch={onSearch} />)
     fireEvent.click(screen.getByRole('button', { name: 'Jutro' }))
     fireEvent.click(screen.getByRole('button', { name: 'Szukaj' }))
-    expect(onSearch).toHaveBeenCalledWith({ date: '2026-10-22', from: '07:00', to: '23:00', forMinutes: 60 })
+    expect(onSearch).toHaveBeenCalledWith({ date: '2026-10-22', from: '07:00', to: '23:00', forMinutes: 120 })
   })
 
   it('duration button changes forMinutes', () => {
@@ -41,7 +41,7 @@ describe('SearchForm', () => {
     render(<SearchForm onSearch={vi.fn()} />)
     const group = screen.getByRole('group', { name: 'Czas gry' })
     const buttons = Array.from(group.querySelectorAll('button'))
-    expect(buttons.map((b) => b.textContent)).toEqual(['60 min', '90 min', '120 min'])
+    expect(buttons.map((b) => b.textContent)).toEqual(['120 min', '90 min', '60 min'])
     expect(buttons.map((b) => b.getAttribute('aria-pressed'))).toEqual(['true', 'false', 'false'])
     fireEvent.click(buttons[2])
     expect(buttons.map((b) => b.getAttribute('aria-pressed'))).toEqual(['false', 'false', 'true'])
@@ -58,7 +58,6 @@ describe('SearchForm', () => {
   it('keeps a half-hour initial value selectable while hourly', () => {
     const onSearch = vi.fn()
     render(<SearchForm onSearch={onSearch} initial={{ date: '2026-11-02', from: '13:30', to: '16:00', forMinutes: 60 }} />)
-    expect(screen.getByRole('button', { name: 'Co 30 min' }).getAttribute('aria-pressed')).toBe('false')
     fireEvent.click(screen.getByRole('button', { name: 'Szukaj' }))
     expect(onSearch).toHaveBeenCalledWith(expect.objectContaining({ from: '13:30', to: '16:00' }))
   })

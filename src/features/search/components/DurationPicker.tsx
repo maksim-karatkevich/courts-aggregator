@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { DURATIONS } from '@/lib/types'
+import { memo } from 'react'
 
 interface Props {
   value: number
@@ -9,7 +10,7 @@ interface Props {
   disabled?: boolean
 }
 
-export function DurationPicker({ value, onChange, disabled }: Props) {
+export const DurationPicker = memo(function DurationPicker({ value, onChange, disabled }: Props) {
   return (
     <div className="flex flex-col gap-1.5">
       <span id="duration-label" className="text-sm font-medium">Czas gry</span>
@@ -30,4 +31,4 @@ export function DurationPicker({ value, onChange, disabled }: Props) {
       </div>
     </div>
   )
-}
+})

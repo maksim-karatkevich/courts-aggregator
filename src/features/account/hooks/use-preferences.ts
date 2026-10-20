@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchPreferences } from '../client/api'
 import { readLocalOwner, writeLocalFavorites, writeLocalOwner } from '../client/local-favorites'
@@ -36,9 +36,10 @@ export function usePreferences(): {
     queryClient.setQueryData(LOCAL_KEY, data.favorites)
   }, [data, userId, queryClient])
 
-  if (!signedIn) {
-    return { prefs: { favorites: local, booked: [] }, signedIn: false, failed: false, ready }
-  }
+  // Stable identity, so consumers can memoize on prefs.
+  const localPrefs = useMemo<Preferences>(() => ({ favorites: local, booked: [] }), [local])
+
+  if (!signedIn) return { prefs: localPrefs, signedIn: false, failed: false, ready }
   if (data) return { prefs: data, signedIn: true, failed: false, ready }
-  return { prefs: { favorites: local, booked: [] }, signedIn: true, failed: query.isError, ready }
+  return { prefs: localPrefs, signedIn: true, failed: query.isError, ready }
 }

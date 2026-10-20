@@ -19,7 +19,7 @@ export function ClubCard({
 
   return (
     <div
-      className={`flex items-center gap-1 rounded-lg border border-l-4 bg-card pl-2 ${border} ${selected ? "ring-2 ring-blue-500" : ""}`}
+      className={`flex items-center gap-1 rounded-lg border border-l-4 pl-2 ${border} ${selected ? "bg-blue-50 dark:bg-blue-950/40" : "bg-card"}`}
     >
       <StarButton club={{ platform: club.platform, clubId: club.id }} />
       <button

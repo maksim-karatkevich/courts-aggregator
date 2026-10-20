@@ -26,9 +26,9 @@ describe('parseSearchParams', () => {
     expect(parseSearchParams(sp(`date=${d}&from=10:00&to=12:00`))).toBeNull()
   })
 
-  it('defaults forMinutes to 60 when missing or not allowed', () => {
-    expect(parseSearchParams(sp('date=2026-10-20&from=18:00&to=21:00'))?.forMinutes).toBe(60)
-    expect(parseSearchParams(sp('date=2026-10-20&from=18:00&to=21:00&forMinutes=45'))?.forMinutes).toBe(60)
+  it('defaults forMinutes to 120 when missing or not allowed', () => {
+    expect(parseSearchParams(sp('date=2026-10-20&from=18:00&to=21:00'))?.forMinutes).toBe(120)
+    expect(parseSearchParams(sp('date=2026-10-20&from=18:00&to=21:00&forMinutes=45'))?.forMinutes).toBe(120)
   })
 })
 
@@ -36,7 +36,7 @@ describe('parseClubSearch', () => {
   const today = '2026-10-19'
 
   it('gives defaults with no params', () => {
-    expect(parseClubSearch(sp(''), today)).toEqual({ date: today, window: null, forMinutes: 60 })
+    expect(parseClubSearch(sp(''), today)).toEqual({ date: today, window: null, forMinutes: 120 })
   })
 
   it('drops garbage or inverted windows', () => {
@@ -55,9 +55,9 @@ describe('parseClubSearch', () => {
     expect(parseClubSearch(sp(`date=${d}`), today).date).toBe(today)
   })
 
-  it('falls back to 60 minutes on a bad forMinutes', () => {
-    expect(parseClubSearch(sp('forMinutes=45'), today).forMinutes).toBe(60)
-    expect(parseClubSearch(sp('forMinutes=abc'), today).forMinutes).toBe(60)
+  it('falls back to 120 minutes on a bad forMinutes', () => {
+    expect(parseClubSearch(sp('forMinutes=45'), today).forMinutes).toBe(120)
+    expect(parseClubSearch(sp('forMinutes=abc'), today).forMinutes).toBe(120)
   })
 })
 

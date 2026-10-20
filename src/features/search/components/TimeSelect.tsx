@@ -1,6 +1,7 @@
 'use client'
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { memo } from 'react'
 
 interface Props {
   label: string
@@ -10,7 +11,7 @@ interface Props {
   disabled?: boolean
 }
 
-export function TimeSelect({ label, value, options, onChange, disabled }: Props) {
+export const TimeSelect = memo(function TimeSelect({ label, value, options, onChange, disabled }: Props) {
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-sm font-medium">{label}</label>
@@ -26,4 +27,4 @@ export function TimeSelect({ label, value, options, onChange, disabled }: Props)
       </Select>
     </div>
   )
-}
+})
