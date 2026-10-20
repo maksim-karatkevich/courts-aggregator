@@ -51,6 +51,7 @@ export function ClubPageContent() {
   return (
     <main className="mx-auto w-full max-w-2xl p-3">
       <CalendarPanel
+        page
         club={club}
         date={search.date}
         window={search.window}

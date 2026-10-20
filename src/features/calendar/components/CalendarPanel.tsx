@@ -16,11 +16,14 @@ export function CalendarPanel({
   date,
   window,
   leading,
+  page,
 }: {
   club: ClubResult
   date: string
   window: SearchWindow | null
   leading?: ReactNode
+  // Mobile club page: the grid is as tall as its content, capped to the screen.
+  page?: boolean
 }) {
   const { prefs } = usePreferences()
   const recordBookingClick = useRecordBookingClick()
@@ -28,16 +31,18 @@ export function CalendarPanel({
   const columns = buildCourtColumns(club.daySlots, lastCourtFor(club, prefs))
 
   return (
-    <section className="calendar-panel-in flex flex-col gap-3 rounded-xl border bg-card p-4">
-      <header className="flex items-start gap-3">
+    <section className={`calendar-panel-in flex flex-col gap-3 rounded-xl border bg-card p-4`}>
+      <header className={`flex gap-3 ${page ? 'flex-wrap items-center' : 'items-start'}`}>
         {leading}
-        <div className="min-w-0 flex-1">
+        <div className={`min-w-0 ${page ? 'order-last w-full' : 'flex-1'}`}>
           <h2 className="text-xl font-bold leading-tight">{club.clubName}</h2>
           <p className="text-xs text-muted-foreground">
             {`${club.platform} · ${format(parseISO(date), 'dd.MM.yyyy')} · Kliknij zielone pole, aby zarezerwować`}
           </p>
         </div>
-        <StarButton club={ref} />
+        <div className={page ? 'ml-auto' : ''}>
+          <StarButton club={ref} />
+        </div>
         <a
           href={club.bookingUrl}
           target="_blank"
@@ -54,6 +59,7 @@ export function CalendarPanel({
         window={window}
         bookingUrl={club.bookingUrl}
         onBook={court => recordBookingClick(ref, court)}
+        page={page}
         resetKey={`${club.platform}:${club.id}:${date}:${initialScrollHour(window)}`}
       />
     </section>
