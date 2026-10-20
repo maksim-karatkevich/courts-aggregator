@@ -10,7 +10,7 @@ const hoursFree = (free: boolean[]) => free.flatMap((f, i) => (f ? [DAY_START_HO
 describe('buildCourtColumns', () => {
   it('marks only fully covered hours free', () => {
     const [col] = buildCourtColumns([slot('Kort 1', '13:00', '15:30')], null)
-    expect(col.free).toHaveLength(16)
+    expect(col.free).toHaveLength(17)
     expect(hoursFree(col.free)).toEqual([13, 14])
   })
   it('merges adjacent spans', () => {
@@ -19,7 +19,7 @@ describe('buildCourtColumns', () => {
   })
   it('treats 00:00 and 24:00 ends as midnight', () => {
     const cols = buildCourtColumns([slot('Kort 1', '21:00', '00:00'), slot('Kort 2', '21:00', '24:00')], null)
-    for (const col of cols) expect(hoursFree(col.free)).toEqual([21, 22])
+    for (const col of cols) expect(hoursFree(col.free)).toEqual([21, 22, 23])
   })
   it('orders courts naturally and puts the last court first', () => {
     const slots = [slot('Kort 2', '10:00', '11:00'), slot('Kort 10', '10:00', '11:00'), slot('Kort 1', '10:00', '11:00')]

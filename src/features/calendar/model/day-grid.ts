@@ -4,7 +4,7 @@ import { orderCourts } from '@/features/account/model/ranking'
 import { timeToMinutes } from '@/lib/api/slot-filter'
 
 export const DAY_START_HOUR = 7
-export const DAY_END_HOUR = 23
+export const DAY_END_HOUR = 24
 
 // free[i] is the hour DAY_START_HOUR + i
 export interface CourtColumn { name: string; surface?: string; free: boolean[] }
