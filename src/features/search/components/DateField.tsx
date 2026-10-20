@@ -2,6 +2,7 @@
 
 import { useState, memo } from 'react'
 import { format } from 'date-fns'
+import { pl } from 'react-day-picker/locale'
 import { CalendarIcon } from 'lucide-react'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -29,6 +30,7 @@ export const DateField = memo(function DateField({ date, today, onChange, disabl
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
             mode="single"
+            locale={pl}
             selected={date}
             onSelect={(d) => { if (d) { onChange(d); setOpen(false) } }}
             disabled={today ? { before: today } : undefined}

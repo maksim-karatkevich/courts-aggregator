@@ -46,14 +46,14 @@ function grid(w: typeof win | null = null, onBook = vi.fn()) {
 }
 
 describe('CalendarGrid', () => {
-  it('renders court headers and 16 hour rows', () => {
+  it('renders court headers and 17 hour rows', () => {
     grid()
     expect(screen.getByText('Kort 1')).toBeTruthy()
     expect(screen.getByText('ceramiczny')).toBeTruthy()
     const rows = document.querySelectorAll('[data-hour]')
-    expect(rows).toHaveLength(16)
+    expect(rows).toHaveLength(17)
     expect(screen.getByText('07:00')).toBeTruthy()
-    expect(screen.getByText('22:00')).toBeTruthy()
+    expect(screen.getByText('23:00')).toBeTruthy()
   })
 
   it('free cells are external links, taken cells are not', () => {
