@@ -21,21 +21,21 @@ export function CalendarGrid({
   bookingUrl,
   onBook,
   resetKey,
-  fill,
+  page,
 }: {
   columns: CourtColumn[]
   window: SearchWindow | null
   bookingUrl: string
   onBook: (court: string | null) => void
   resetKey: string
-  fill?: boolean
+  page?: boolean
 }) {
   const scrollRef = useRef<HTMLDivElement>(null)
   useInitialScroll(scrollRef, initialScrollHour(window), resetKey)
   const range = windowHours(window)
 
   return (
-    <div ref={scrollRef} data-testid="calendar-scroll" className={`relative overflow-auto rounded-lg border ${fill ? 'min-h-0 flex-1' : 'max-h-[28rem]'}`}>
+    <div ref={scrollRef} data-testid="calendar-scroll" className={`relative overflow-auto rounded-lg border ${page ? 'max-h-[calc(100dvh-13rem)]' : 'max-h-[28rem]'}`}>
       <div
         className="grid"
         style={{ gridTemplateColumns: `56px repeat(${columns.length}, minmax(96px, 1fr))` }}
