@@ -49,8 +49,9 @@ export function ClubPageContent() {
   if (!club) return <Message backHref={backHref}>Nie znaleziono wolnych terminów dla tego klubu</Message>
 
   return (
-    <main className="mx-auto w-full max-w-2xl p-3">
+    <main className="mx-auto flex h-dvh w-full max-w-2xl flex-col p-3">
       <CalendarPanel
+        fill
         club={club}
         date={search.date}
         window={search.window}
