@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { expectNoA11yViolations } from './helpers/axe'
 import { SearchForm } from '@/features/search/components/SearchForm'
 
 beforeEach(() => {
@@ -13,6 +14,13 @@ afterEach(() => {
 })
 
 describe('SearchForm', () => {
+  it('time selects are named by their Od / Do labels', () => {
+    const initial = { date: '2026-11-02', from: '18:00', to: '21:00', forMinutes: 120 }
+    render(<SearchForm onSearch={vi.fn()} initial={initial} />)
+    expect(screen.getByLabelText(/^Od/)).toBeTruthy()
+    expect(screen.getByLabelText(/^Do/)).toBeTruthy()
+  })
+
   it('date button is named by its Data label', () => {
     const initial = { date: '2026-11-02', from: '18:00', to: '21:00', forMinutes: 120 }
     render(<SearchForm onSearch={vi.fn()} initial={initial} />)
@@ -66,5 +74,12 @@ describe('SearchForm', () => {
     render(<SearchForm onSearch={onSearch} initial={{ date: '2026-11-02', from: '13:30', to: '16:00', forMinutes: 60 }} />)
     fireEvent.click(screen.getByRole('button', { name: 'Szukaj' }))
     expect(onSearch).toHaveBeenCalledWith(expect.objectContaining({ from: '13:30', to: '16:00' }))
+  })
+})
+
+describe('SearchForm accessibility', () => {
+  it('has no a11y violations', async () => {
+    const { container } = render(<SearchForm onSearch={vi.fn()} />)
+    await expectNoA11yViolations(container)
   })
 })

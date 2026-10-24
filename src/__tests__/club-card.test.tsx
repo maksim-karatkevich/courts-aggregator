@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { expectNoA11yViolations } from './helpers/axe'
 import { Platform, type ClubResult } from '@/lib/types'
 
 vi.mock('@/features/account/components/StarButton', () => ({
@@ -71,5 +72,12 @@ describe('ClubCard', () => {
   it('has no booking link', () => {
     const { container } = setup()
     expect(container.querySelector('a')).toBeNull()
+  })
+})
+
+describe('ClubCard accessibility', () => {
+  it('has no a11y violations', async () => {
+    const { container } = setup()
+    await expectNoA11yViolations(container)
   })
 })
