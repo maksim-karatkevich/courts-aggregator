@@ -46,6 +46,7 @@
     "drizzle-kit": "^0.31.11",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "jsdom": "^26.1.0",
     "tailwindcss": "^4",
     "typescript": "^5",

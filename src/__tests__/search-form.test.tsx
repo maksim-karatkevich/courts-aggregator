@@ -13,6 +13,12 @@ afterEach(() => {
 })
 
 describe('SearchForm', () => {
+  it('date button is named by its Data label', () => {
+    const initial = { date: '2026-11-02', from: '18:00', to: '21:00', forMinutes: 120 }
+    render(<SearchForm onSearch={vi.fn()} initial={initial} />)
+    expect(screen.getByRole('button', { name: 'Data 02.11.2026' })).toBeTruthy()
+  })
+
   it('Jutro chip emits tomorrow with defaults', () => {
     const onSearch = vi.fn()
     render(<SearchForm onSearch={onSearch} />)
