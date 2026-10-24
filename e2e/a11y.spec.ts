@@ -1,3 +1,4 @@
+import { appendFileSync } from 'node:fs'
 import AxeBuilder from '@axe-core/playwright'
 import type { Page, TestInfo } from '@playwright/test'
 import { test, expect } from './support/guard'
@@ -21,7 +22,13 @@ async function scan(page: Page, testInfo: TestInfo): Promise<void> {
     contentType: 'application/json',
   })
   for (const v of violations) {
-    testInfo.annotations.push({ type: 'a11y', description: `${v.id} (${v.impact}): ${v.help}, ${v.nodes.length} nodes` })
+    const line = `${v.id} (${v.impact}): ${v.help}, ${v.nodes.length} nodes`
+    testInfo.annotations.push({ type: 'a11y', description: line })
+    // GitHub Actions shows this file on the run page, so findings are visible
+    // without downloading the report.
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      appendFileSync(process.env.GITHUB_STEP_SUMMARY, `- **a11y** [${testInfo.project.name}] ${testInfo.title}: ${line}\n`)
+    }
   }
   if (STRICT) expect(violations.map((v) => v.id)).toEqual([])
 }

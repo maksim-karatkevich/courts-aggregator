@@ -60,6 +60,12 @@ describe('searchTenis4u', () => {
     expect(await searchTenis4u(params)).toEqual([club103])
   })
 
+  it('a 500 is never treated as data, even with a usable body', async () => {
+    // Guards the res.ok check that keeps failures out of the 'use cache' entry.
+    stubFetch(routes({ 103: () => json(occupancy103, 500) }))
+    expect(await searchTenis4u(params)).toEqual([])
+  })
+
   it('a network error on one club does not drop the others', async () => {
     stubFetch(routes({ 110: () => { throw new TypeError('fetch failed') } }))
     expect(await searchTenis4u(params)).toEqual([club103])
