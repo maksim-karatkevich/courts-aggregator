@@ -29,6 +29,8 @@ export function SearchForm({ onSearch, loading, initial }: Props) {
   // Set after mount to avoid a server/client date mismatch.
   useEffect(() => {
     const now = new Date()
+    // Intentional: the date must come from the client after hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setToday(now)
     if (!initial) setDate(now)
     // eslint-disable-next-line react-hooks/exhaustive-deps

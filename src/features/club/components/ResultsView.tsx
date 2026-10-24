@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { ClubResult, SearchParams } from '@/lib/types'
 import { clubKey } from '@/features/account/model/club-key'

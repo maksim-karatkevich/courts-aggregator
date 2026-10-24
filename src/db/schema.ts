@@ -32,6 +32,8 @@ export const bookingPreference = pgTable(
   (t) => [primaryKey({ columns: [t.userId, t.platform, t.clubId] })],
 )
 
+// Only read through `typeof` to type Db, so lint sees it as unused.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const schema = { ...authSchema, favorite, bookingPreference }
 
 export type Db = PgDatabase<PgQueryResultHKT, typeof schema>
