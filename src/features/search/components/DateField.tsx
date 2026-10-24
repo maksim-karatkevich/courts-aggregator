@@ -1,6 +1,6 @@
 'use client'
 
-import { useId, useState, memo } from 'react'
+import { useId, useRef, useState, memo } from 'react'
 import { format } from 'date-fns'
 import { pl } from 'react-day-picker/locale'
 import { CalendarIcon } from 'lucide-react'
@@ -17,6 +17,7 @@ interface Props {
 export const DateField = memo(function DateField({ date, today, onChange, disabled }: Props) {
   const [open, setOpen] = useState(false)
   const id = useId()
+  const popupRef = useRef<HTMLDivElement>(null)
   return (
     <div className="flex flex-col gap-1.5">
       {/* The trigger is named "Data <value>" via aria-labelledby (label first, then its own text). */}
@@ -31,7 +32,14 @@ export const DateField = memo(function DateField({ date, today, onChange, disabl
           <CalendarIcon className="size-4" />
           {date ? format(date, 'dd.MM.yyyy') : 'Wybierz datę'}
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent
+          ref={popupRef}
+          className="w-auto p-0"
+          align="start"
+          // Opening focuses the selected (or today's) day, not the month nav,
+          // so arrow keys pick a date right away (WAI-ARIA date picker pattern).
+          initialFocus={() => popupRef.current?.querySelector<HTMLElement>('[role="grid"] [tabindex="0"]') ?? true}
+        >
           <Calendar
             mode="single"
             locale={pl}
