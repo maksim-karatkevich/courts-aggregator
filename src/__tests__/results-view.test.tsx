@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, render, screen, waitFor, fireEvent } from '@testing-library/react'
+import { expectNoA11yViolations } from './helpers/axe'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Platform, type ClubResult, type SearchParams } from '@/lib/types'
 import { clubHref } from '@/features/club/club-href'
@@ -135,5 +136,23 @@ describe('ResultsView states', () => {
     fetchMock.mockReturnValue(new Promise(() => {}))
     renderView()
     await waitFor(() => expect(screen.getByTestId('skeleton')).toBeTruthy())
+  })
+})
+
+describe('ResultsView accessibility', () => {
+  beforeEach(() => setViewport(true))
+
+  it('with results has no a11y violations', async () => {
+    ok([alpha, beta])
+    const { container } = renderView()
+    await screen.findByText('Alpha')
+    await expectNoA11yViolations(container)
+  })
+
+  it('empty state has no a11y violations', async () => {
+    ok([])
+    const { container } = renderView()
+    await screen.findByText('Brak dostępnych kortów w wybranym terminie.')
+    await expectNoA11yViolations(container)
   })
 })

@@ -20,3 +20,7 @@ dist
 
 npm-debug.log*
 tsconfig.tsbuildinfo
+
+# playwright
+/playwright-report
+/test-results

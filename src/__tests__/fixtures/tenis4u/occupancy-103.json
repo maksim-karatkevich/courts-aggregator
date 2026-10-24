@@ -1,0 +1,13 @@
+{
+  "stations": [
+    {
+      "id": 1,
+      "name": "Kort 1",
+      "type": "hala mączka",
+      "days": [
+        { "date": "2026/10/24", "free_hours": [{ "begin_time": "08:00", "end_time": "09:00" }] },
+        { "date": "2026/10/25", "free_hours": [{ "begin_time": "10:00", "end_time": "13:00" }] }
+      ]
+    }
+  ]
+}

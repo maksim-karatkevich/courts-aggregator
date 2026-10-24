@@ -1,0 +1,8 @@
+[
+  {
+    "clubs": [
+      { "id": "club-a", "name": "Klub A", "isFavorite": false, "locations": [{ "id": "loc-1", "from": "07:00", "to": "23:00" }] },
+      { "id": "club-b", "name": "Klub B", "isFavorite": false, "locations": [{ "id": "loc-2", "from": "07:00", "to": "23:00" }] }
+    ]
+  }
+]

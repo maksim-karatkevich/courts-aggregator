@@ -1,0 +1,6 @@
+{
+  "clubs": [
+    { "id": "club-a", "name": "Klub A", "containsEmptySlots": true, "spans": { "loc-1": [{ "from": "10:00:00", "to": "13:00:00" }] } },
+    { "id": "club-b", "name": "Klub B", "containsEmptySlots": false, "spans": { "loc-2": [{ "from": "10:00:00", "to": "13:00:00" }] } }
+  ]
+}

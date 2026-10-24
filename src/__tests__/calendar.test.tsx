@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { expectNoA11yViolations } from './helpers/axe'
 import type { ClubResult } from '@/lib/types'
 import type { CourtColumn } from '@/features/calendar/model/day-grid'
 import { UNNAMED_COURT } from '@/features/club/group-by-court'
@@ -141,5 +142,12 @@ describe('CalendarEmptyState', () => {
   it('prompts to pick a club', () => {
     render(<CalendarEmptyState />)
     expect(screen.getByText('Wybierz klub z listy, aby zobaczyć dostępne terminy')).toBeTruthy()
+  })
+})
+
+describe('Calendar accessibility', () => {
+  it('panel with free slots has no a11y violations', async () => {
+    const { container } = render(<CalendarPanel club={club} date="2026-10-21" window={null} />)
+    await expectNoA11yViolations(container)
   })
 })
