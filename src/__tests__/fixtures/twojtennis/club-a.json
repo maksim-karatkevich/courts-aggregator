@@ -1,0 +1,5 @@
+{
+  "locations": [
+    { "id": "loc-1", "name": "Kort 1", "properties": { "SurfaceType": "Clay", "TennisCourtType": "Indoor" } }
+  ]
+}
